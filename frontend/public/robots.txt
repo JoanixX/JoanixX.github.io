@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://joanixx.github.io/portafolio/sitemap-index.xml
+Sitemap: https://joanixx.github.io/sitemap-index.xml

@@ -1,7 +1,10 @@
 /**
- * import.meta.env.BASE_URL already carries a trailing slash ("/portafolio/"),
- * so naively templating `${BASE_URL}/foo` yields "/portafolio//foo".
- * Join through here instead.
+ * Joins a path onto Astro's configured base.
+ *
+ * import.meta.env.BASE_URL always carries a trailing slash ("/" at the domain
+ * root, "/sub/" under a base), so naively templating `${BASE_URL}/foo` yields a
+ * doubled slash. Join through here instead — this stays correct if a base is
+ * ever reintroduced.
  */
 export function withBase(path: string): string {
   const base = import.meta.env.BASE_URL.replace(/\/+$/, "");

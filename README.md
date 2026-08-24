@@ -1,6 +1,6 @@
 # Joaquin Alvarado — Portfolio
 
-Source for [joanixx.github.io/portafolio](https://joanixx.github.io/portafolio/).
+Source for [joanixx.github.io](https://joanixx.github.io/).
 
 The site has two front doors on purpose:
 
@@ -28,7 +28,7 @@ the content is in the file on disk.
 ## Structure
 
 ```text
-portafolio/
+JoanixX.github.io/
 ├── frontend/     # Astro + TypeScript. The site itself.
 │   ├── src/data/projects.ts      # Single source of truth (bilingual) for all project content
 │   ├── src/data/zones.ts         # Game zones, derived from projects.ts
@@ -46,7 +46,7 @@ portafolio/
 cd backend && cargo run          # http://localhost:8080
 
 # Frontend
-cd frontend && npm install && npm run dev   # http://localhost:4321/portafolio
+cd frontend && npm install && npm run dev   # http://localhost:4321
 ```
 
 ## Tech
