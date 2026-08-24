@@ -9,14 +9,16 @@
         <div class="zone hitbox hub" data-zone="hub" data-label="HUB CENTRAL" style="left: 45.3%; top: 37%; width: 11%; height: 20.5%;"></div>
         <div class="zone hitbox backend" data-zone="backend" data-label="BACKEND" style="left: 25%; top: 6%; width: 9.5%; height: 19.5%;"></div>
         <div class="zone hitbox ds" data-zone="datascience" data-label="DATA SCIENCE" style="left: 22%; top: 55%; width: 11%; height: 26%;"></div>
-        <div class="zone hitbox ai" data-zone="ai" data-label="INTELIGENCIA ARTIFICIAL" style="left: 67.1%; top: 6%; width: 12.5%; height: 23.8%;"></div>
-        <div class="zone hitbox exp" data-zone="experience" data-label="EXPERIENCIA" style="left: 73.8%; top: 46.5%; width: 6.3%; height: 17%;"></div>
+        <div class="zone hitbox ai" data-zone="ai" data-label="ARTIFICIAL INTELLIGENCE" style="left: 67.1%; top: 6%; width: 12.5%; height: 23.8%;"></div>
+        <div class="zone hitbox exp" data-zone="experience" data-label="EXPERIENCE" style="left: 73.8%; top: 46.5%; width: 6.3%; height: 17%;"></div>
         
+        <div class="zone hitbox hub" data-zone="hub" data-label="HUB CENTRAL" style="left: 46.5%; top: 38%; width: 8.5%; height: 16%;"></div>
+
         <!-- minijuegos -->
-        <div class="zone hitbox minigame" data-type="minigame" data-zone="Jardín" style="left: 43%; top: 75%; width: 8.5%; height: 16.5%;"></div>
-        <div class="zone hitbox minigame" data-type="minigame" data-zone="Granja" style="left: 46.5%; top: 10%; width: 10.5%; height: 18.5%;"></div>
-        <div class="zone hitbox minigame" data-type="minigame" data-zone="Lago" style="left: 62%; top: 75%; width: 7%; height: 15%;"></div>
-        <div class="zone hitbox minigame" data-type="minigame" data-zone="Árbol Mágico" style="left: 21.5%; top: 30%; width: 8.5%; height: 20%;"></div>
+        <div class="zone hitbox minigame" data-type="minigame" data-zone="garden" style="left: 43%; top: 75%; width: 8.5%; height: 16.5%;"></div>
+        <div class="zone hitbox minigame" data-type="minigame" data-zone="farm" style="left: 46.5%; top: 10%; width: 10.5%; height: 18.5%;"></div>
+        <div class="zone hitbox minigame" data-type="minigame" data-zone="lake" style="left: 62%; top: 75%; width: 7%; height: 15%;"></div>
+        <div class="zone hitbox minigame" data-type="minigame" data-zone="magic_tree" style="left: 21.5%; top: 30%; width: 8.5%; height: 20%;"></div>
         
         <!-- easter eggs -->
         <div class="zone hitbox easter_egg" data-type="easter_egg" data-zone="easter_egg" style="left: 94%; top: 94%; width: 3.8%; height: 7%;"></div>
@@ -40,29 +42,29 @@
             <div class="sign-tip"></div>
         </div>
         <div class="zone-signpost" style="left: 73.1%; top: 6%;">
-            <span class="sign-text">INTELIGENCIA ARTIFICIAL</span>
+            <span class="sign-text">ARTIFICIAL INTELLIGENCE</span>
             <div class="sign-tip"></div>
         </div>
         <div class="zone-signpost" style="left: 77%; top: 46.5%;">
-            <span class="sign-text">EXPERIENCIA</span>
+            <span class="sign-text">EXPERIENCE</span>
             <div class="sign-tip"></div>
         </div>
 
 
         <div class="zone-signpost minigame" style="left: 47.3%; top: 75%;">
-            <span class="sign-text">MINIJUEGO - JARDÍN</span>
+            <span class="sign-text">MINIGAME - GARDEN</span>
             <div class="sign-tip"></div>
         </div>
         <div class="zone-signpost minigame" style="left: 51.7%; top: 10%;">
-            <span class="sign-text">MINIJUEGO - GRANJA</span>
+            <span class="sign-text">MINIGAME - FARM</span>
             <div class="sign-tip"></div>
         </div>
         <div class="zone-signpost minigame" style="left: 65.5%; top: 75%;">
-            <span class="sign-text">MINIJUEGO - LAGO</span>
+            <span class="sign-text">MINIGAME - LAKE</span>
             <div class="sign-tip"></div>
         </div>
         <div class="zone-signpost minigame" style="left: 25.8%; top: 30%;">
-            <span class="sign-text">MINIJUEGO - ÁRBOL MÁGICO</span>
+            <span class="sign-text">MINIGAME - MAGIC TREE</span>
             <div class="sign-tip"></div>
         </div>
 
@@ -70,7 +72,7 @@
         <div id="player" class="player-container">
             <div id="player-aura" class="player-aura"></div>
             <div class="player-arrow">
-                <span class="arrow-text">TÚ</span>
+                <span class="arrow-text">YOU</span>
                 <div class="arrow-tip"></div>
             </div>
             <div id="player-sprite" class="character-sprite"></div>
@@ -407,7 +409,7 @@
             if (res.ok) {
                 const data = await res.json();
                 console.log(`[GameMap] Coin collection successful. Total global: ${data.total}, User now has: ${data.user}`);
-                showToast(`Has recogido 10 monedas!`);
+                showToast(`You picked up 10 coins!`);
             } else {
                 console.error("[GameMap] Failed to collect coin:", await res.text());
                 showToast("Error al recoger moneda");
@@ -424,12 +426,6 @@
             let zoneName = z.getAttribute('data-zone');
             const type = z.getAttribute('data-type');
             
-            // Map display names to internal IDs for minigames
-            if (zoneName === 'Lago') zoneName = 'lake';
-            if (zoneName === 'Granja') zoneName = 'farm';
-            if (zoneName === 'Árbol Mágico') zoneName = 'magic_tree';
-            if (zoneName === 'Jardín') zoneName = 'garden';
-
             document.dispatchEvent(new CustomEvent('open-zone', { detail: { zone: zoneName } }));
         });
     });

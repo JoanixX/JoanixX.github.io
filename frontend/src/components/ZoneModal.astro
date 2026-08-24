@@ -1,3 +1,7 @@
+---
+import { withBase } from "../lib/url";
+---
+
 <div id="zone-modal" class="modal-backdrop hidden">
     <div class="modal-container">
         <!-- panel principal -->
@@ -18,7 +22,7 @@
             </div>
 
             <div id="modal-actions" class="modal-actions">
-                <button id="claim-reward" class="btn reward hidden">Reclamar Recompensa (+50 coins)</button>
+                <button id="claim-reward" class="btn reward hidden">Claim Reward (+50 coins)</button>
             </div>
         </div>
 
@@ -32,7 +36,7 @@
                 <h3 id="detail-name">Project Name</h3>
                 <p id="detail-desc">Full project description...</p>
                 <div class="tech-stack">
-                    <span class="tech-label">TECNOLOGÍAS:</span>
+                    <span class="tech-label">TECH STACK:</span>
                     <p id="detail-tech">Rust, Actix, PostgreSQL</p>
                 </div>
                 <div class="detail-actions">
@@ -52,9 +56,9 @@
             <div id="fish-game-area" class="game-area-box">
                 <!-- canvas del juego -->
                 <div class="game-controls">
-                    <div id="game-status" class="status-msg">Presiona JUGAR para comenzar</div>
+                    <div id="game-status" class="status-msg">Press PLAY to start</div>
                     <div id="game-score" class="score-display"></div>
-                    <button id="play-game-btn" class="btn reward">JUGAR (75 Coins)</button>
+                    <button id="play-game-btn" class="btn reward">PLAY (75 Coins)</button>
                 </div>
             </div>
             <div id="minigame-placeholder-msg" class="placeholder-text hidden"></div>
@@ -68,7 +72,7 @@
     </div>
 </div>
 
-<style is:global define:vars={{ charactersPath: `url('${import.meta.env.BASE_URL}/characters.png')` }}>
+<style is:global define:vars={{ charactersPath: `url('${withBase("characters.png")}')` }}>
     .char-sprite {
         background-image: var(--charactersPath);
         z-index: 10;
@@ -220,12 +224,12 @@
                         rewardBtn?.classList.remove('hidden');
                         
                         if (claimedRewardIds.has(zoneId)) {
-                            rewardBtn!.innerText = 'COBRADO ✓';
+                            rewardBtn!.innerText = 'CLAIMED ✓';
                             rewardBtn!.classList.add('claimed');
                             (rewardBtn as any).disabled = true;
                             rewardBtn!.onclick = null;
                         } else {
-                            rewardBtn!.innerText = 'Reclamar Recompensa (+50 coins)';
+                            rewardBtn!.innerText = 'Claim Reward (+50 coins)';
                             rewardBtn!.classList.remove('claimed');
                             (rewardBtn as any).disabled = false;
                             rewardBtn!.onclick = () => doClaim(zoneId, 50, rewardBtn);
@@ -296,9 +300,9 @@
             // hud placeholders
             fishGameArea.innerHTML = `
                 <div class="game-controls">
-                    <div id="game-status" class="status-msg">PRÓXIMAMENTE</div>
+                    <div id="game-status" class="status-msg">COMING SOON</div>
                     <div id="game-score" class="score-display"></div>
-                    <button class="btn reward" disabled>EN CONSTRUCCIÓN</button>
+                    <button class="btn reward" disabled>UNDER CONSTRUCTION</button>
                 </div>
             `;
         }
@@ -315,7 +319,7 @@
         detailsPanel.classList.remove('hidden');
 
         if (claimedRewardIds.has(p.id)) {
-            detailClaim.innerText = 'COBRADO ✓';
+            detailClaim.innerText = 'CLAIMED ✓';
             detailClaim.classList.add('claimed');
             (detailClaim as any).disabled = true;
             detailClaim.onclick = null;
@@ -339,7 +343,7 @@
             });
             if (res.ok) {
                 document.dispatchEvent(new Event('coin-collected'));
-                el.innerText = 'COBRADO ✓';
+                el.innerText = 'CLAIMED ✓';
                 el.classList.add('claimed');
                 (el as any).disabled = true;
                 

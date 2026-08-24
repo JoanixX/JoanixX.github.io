@@ -1,0 +1,86 @@
+---
+// Deliberately does NOT share Layout.astro's globals: that layout sets
+// `overflow: hidden` and forces a pixel font on every element, both of which
+// are correct for a full-screen game and wrong for a document you scroll and read.
+import Seo from '../components/Seo.astro';
+
+interface Props {
+	title: string;
+	description: string;
+	path?: string;
+}
+
+const { title, description, path = '' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<Seo title={title} description={description} path={path} ogType="profile" />
+	</head>
+	<body>
+		<slot />
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		color-scheme: dark;
+		--bg: #0a0a16;
+		--bg-raised: #11111f;
+		--surface: rgba(255, 255, 255, 0.035);
+		--border: rgba(255, 255, 255, 0.09);
+		--border-strong: rgba(255, 255, 255, 0.16);
+		--text: #e6e9ef;
+		--text-dim: #a2a9b8;
+		--text-faint: #7b8394;
+		--accent-backend: #ff8787;
+		--accent-ds: #74c0fc;
+		--accent-ai: #da9ff5;
+		--accent-hub: #ffd43b;
+		--accent-exp: #63e6be;
+		--link: #8ec5ff;
+	}
+
+	*, *::before, *::after { box-sizing: border-box; }
+	* { margin: 0; padding: 0; }
+
+	html {
+		background: var(--bg);
+		scroll-behavior: smooth;
+		-webkit-text-size-adjust: 100%;
+	}
+
+	body {
+		background: var(--bg);
+		color: var(--text);
+		font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+			"Helvetica Neue", Arial, sans-serif;
+		font-size: 16px;
+		line-height: 1.65;
+		-webkit-font-smoothing: antialiased;
+		text-rendering: optimizeLegibility;
+	}
+
+	a { color: var(--link); text-decoration: none; }
+	a:hover { text-decoration: underline; }
+
+	:focus-visible {
+		outline: 2px solid var(--link);
+		outline-offset: 3px;
+		border-radius: 3px;
+	}
+
+	code, .mono {
+		font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+			"Liberation Mono", monospace;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		html { scroll-behavior: auto; }
+		*, *::before, *::after {
+			animation-duration: 0.01ms !important;
+			transition-duration: 0.01ms !important;
+		}
+	}
+</style>

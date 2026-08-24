@@ -1,60 +1,56 @@
-# JoanixX (Cesar Joaquin Alvarado Osorio) - Portafolio
+# Joaquin Alvarado — Portfolio
 
-Hola! Soy Joaquin Alvarado y este es mi portafolio, un proyecto diseñado como una experiencia gamificada tipo videojuego 2D ("Game-like Portfolio"). Los usuarios pueden explorar diferentes zonas tecnológicas, recolectar monedas, jugar minijuegos y personalizar su avatar.
+Source for [joanixx.github.io/portafolio](https://joanixx.github.io/portafolio/).
 
-Este repositorio está dividido en dos partes principales: el **Frontend** (Astro) y el **Backend** (Rust).
+The site has two front doors on purpose:
 
-## Estructura del Proyecto
+| Route | What it is | Who it is for |
+| :--- | :--- | :--- |
+| `/` | A 2D game-like map: walk a character around, open zones, play minigames, collect coins, buy skins. | Anyone with a browser and a few minutes. |
+| `/projects` | A flat, prerendered HTML page listing all 15 entries with metrics and source links. | Recruiters in a hurry, and every crawler — LinkedIn, Slack, Google — none of which run JavaScript. |
+
+The game's zone content is not duplicated: both routes read from
+`frontend/src/data/projects.ts`, so a single edit updates the map and the static
+page together.
+
+## Why `/projects` exists
+
+Astro prerenders every page at build time, but it only captures what runs in a
+component's frontmatter. The game's project data is imported from a client
+`<script>`, so it ships as a JavaScript bundle and the served HTML carries only
+empty placeholders. `/projects` builds its markup in the frontmatter instead, so
+the content is in the file on disk.
+
+## Structure
 
 ```text
 portafolio/
-├── frontend/     # Aplicación web construida con Astro, TypeScript y Vanilla CSS.
-└── backend/      # Servidor en Rust con Actix-web para manejar el estado y la persistencia en memoria.
+├── frontend/     # Astro + TypeScript. The site itself.
+│   ├── src/data/projects.ts      # Single source of truth for all project content
+│   ├── src/data/zones.ts         # Game zones, derived from projects.ts
+│   ├── src/pages/projects.astro  # The static, crawlable page
+│   └── public/og-image.png       # Link preview card (1200x630)
+└── backend/      # Rust + Actix-web. In-memory coin/skin state for the game.
 ```
 
-## Características Principales
+## Running it
 
-- **Exploración Espacial**: Un mapa interactivo con zonas dedicadas a Backend, Data Science y AI/ML.
-- **Sistema de Gamificación**: Recolecta monedas flotantes para ganar puntos.
-- **Minijuegos Integrados**: 
-  - **Fishing**: Pesca proyectos en un minijuego de ritmo.
-  - **Farm**: Gestiona y recolecta recursos en la zona de "Magic Tree".
-  - **Connect 4**: Desafía al sistema en un clásico juego de estrategia.
-  - **Quiz**: Pon a prueba tus conocimientos.
-- **Personalización**: Tienda de skins para cambiar la apariencia del cursor/avatar usando las monedas recolectadas.
-- **Efectos Visuales Premium**: Glassmorphism, animaciones fluidas y un diseño responsivo que se adapta a cualquier dispositivo.
+```bash
+# Backend (optional — the game degrades gracefully without it)
+cd backend && cargo run          # http://localhost:8080
 
-## Tecnologías
+# Frontend
+cd frontend && npm install && npm run dev   # http://localhost:4321/portafolio
+```
 
-| Capa | Tecnologías |
+## Tech
+
+| Layer | Stack |
 | :--- | :--- |
-| **Frontend** | Astro, TypeScript, Vanilla CSS, Keyframe Animations |
-| **Backend** | Rust, Actix-web, Serde, Actix-Cors |
-| **Diseño** | Google Fonts (Outfit), Glassmorphism, Retro Pixel Art |
-
-## Cómo empezar
-
-### 1. Clonar el repositorio
-```bash
-git clone https://github.com/JoanixX/portafolio.git
-cd portafolio
-```
-
-### 2. Ejecutar el Backend (Rust)
-```bash
-cd backend
-cargo run
-```
-*El backend iniciará en `http://localhost:8080`.*
-
-### 3. Ejecutar el Frontend (Astro)
-```bash
-cd frontend
-npm install
-npm run dev
-```
-*Visita `http://localhost:4321` en tu navegador.*
+| Frontend | Astro 5, TypeScript, vanilla CSS |
+| Backend | Rust, Actix-web, Serde |
+| Deploy | GitHub Actions → GitHub Pages |
 
 ---
 
-Desarrollado por [Joaquin](https://github.com/JoanixX)
+[github.com/JoanixX](https://github.com/JoanixX)

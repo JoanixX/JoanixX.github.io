@@ -1,4 +1,5 @@
 ---
+import { withBase } from '../lib/url';
 ---
 
 <div id="start-screen" class="start-screen">
@@ -6,10 +7,11 @@
         <!-- area interactiva izq -->
         <div class="left-panel">
             <div class="brand">
-                <h1>MI PORTAFOLIO</h1>
-                <p class="subtitle">Full Stack & AI Engineer</p>
+                <h1>JOAQUIN ALVARADO</h1>
+                <p class="subtitle">Backend &amp; Machine Learning Engineer</p>
             </div>
             <button id="btn-start" class="btn-pixel">PRESS START</button>
+            <a href={withBase('projects/')} class="skip-link">In a hurry? See all 15 projects &rarr;</a>
         </div>
 
         <!-- separador cadenas -->
@@ -22,27 +24,25 @@
         <!-- area sobre mi -->
         <div class="right-panel">
             <div class="about-me glass-panel">
-                <h2>¿Quién soy?</h2>
+                <h2>Who am I?</h2>
                 <div class="about-content">
                     <div class="about-top">
-                        <p>Soy Joaquin Alvarado, un desarrollador apasionado por crear 
-                        mundos digitales interactivos. Mi especialidad es el Backend 
-                        tanto en Rust como en Python (FastAPI), me enfoco en la arquitectura 
-                        limpia y la escalabilidad de mis aplicaciones, además de integrar 
-                        Inteligencia Artificial para desarrollar soluciones y mejorar la 
-                        experiencia del usuario.</p>
+                        <p>I am Joaquin Alvarado, a Computer Science student at UPC in Peru
+                        and a software engineering intern at Zoluxiones. I build backends in
+                        Rust, Python and Go, and machine learning systems that report the
+                        metric they were actually evaluated on. Open to remote roles.</p>
                         <div class="about-image">
-                            <img src={`${import.meta.env.BASE_URL}/CV_Yo.png`} alt="Joaquin Alvarado" class="profile-img" />
+                            <img src={withBase('CV_Yo.png')} alt="Joaquin Alvarado" class="profile-img" />
                         </div>
                     </div>
                     <div class="extra-info">
                         <div class="info-item">
-                            <span class="label">Misión</span>
-                            <span class="value">Arquitectura Limpia</span>
+                            <span class="label">Focus</span>
+                            <span class="value">Backend &amp; ML</span>
                         </div>
                         <div class="info-item">
-                            <span class="label">Visión</span>
-                            <span class="value">Innovación IA</span>
+                            <span class="label">Stack</span>
+                            <span class="value">Rust / Python / Go</span>
                         </div>
                     </div>
                 </div>
@@ -342,5 +342,30 @@
     @keyframes float {
         0%, 100% { transform: translateY(0); }
         50% { transform: translateY(-10px); }
+    }
+</style>
+
+<style>
+    /* Static escape hatch: a real <a> in the prerendered HTML, so crawlers and
+       recruiters both reach the plain project list without playing anything. */
+    .skip-link {
+        display: inline-block;
+        margin-top: 1.4rem;
+        font-size: 0.55rem;
+        line-height: 1.8;
+        color: #ffd43b;
+        border-bottom: 2px solid rgba(255, 212, 59, 0.45);
+        padding-bottom: 4px;
+        transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .skip-link:hover,
+    .skip-link:focus-visible {
+        color: #fff3bf;
+        border-color: #fff3bf;
+    }
+
+    @media (max-width: 768px) {
+        .skip-link { font-size: 0.5rem; }
     }
 </style>

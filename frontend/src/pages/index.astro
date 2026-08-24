@@ -4,9 +4,15 @@ import GameMap from '../components/GameMap.astro';
 import Dashboard from '../components/Dashboard.astro';
 import ZoneModal from '../components/ZoneModal.astro';
 import StartScreen from '../components/StartScreen.astro';
+
+const TITLE = 'Joaquin Alvarado — Backend & Machine Learning Engineer';
+const DESCRIPTION =
+	'Backend and machine learning engineer. High-concurrency Rust APIs, distributed Go ' +
+	'training pipelines and production ML services. Computer Science student at UPC, Peru, ' +
+	'open to remote roles. Explore the interactive map, or read the plain project list.';
 ---
 
-<Layout title="Portafolio Joaquinsito">
+<Layout title={TITLE} description={DESCRIPTION}>
 	<main>
 		<StartScreen />
 		<Dashboard />

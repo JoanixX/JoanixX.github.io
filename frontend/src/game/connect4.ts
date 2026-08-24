@@ -34,13 +34,13 @@ export class Connect4Game {
             <div class="c4-stats">
               <div class="linus-panel">
                 <span id="linus-avatar">🐧</span>
-                <span id="linus-msg">¿Te atreves a retar a Linus?</span>
+                <span id="opponent-msg">Care to challenge The Compiler?</span>
               </div>
             </div>
             <div id="c4-board" class="c4-board"></div>
             <div class="game-controls">
-                <div id="game-status" class="status-msg">Presiona JUGAR para comenzar</div>
-                <button id="play-game-btn" class="btn reward">JUGAR (75 Coins)</button>
+                <div id="game-status" class="status-msg">Press PLAY to start</div>
+                <button id="play-game-btn" class="btn reward">PLAY (75 Coins)</button>
             </div>
             
             <style>
@@ -167,7 +167,7 @@ export class Connect4Game {
                 this.clickCount++;
                 if (this.clickCount === 7 && !this.easterEggUnlocked && this.gameActive) {
                     this.easterEggUnlocked = true;
-                    this.setLinusMsg("¿Un backdoor? Usando permisos root concedidos...");
+                    this.setOpponentMsg("A backdoor? Using granted root permissions...");
                     const rmBtn = this.container.querySelector('#rm-rf-btn') as HTMLElement;
                     if(rmBtn) rmBtn.style.display = 'block';
                 }
@@ -178,7 +178,7 @@ export class Connect4Game {
         if (rmBtn) {
             rmBtn.addEventListener('click', () => {
                 if (this.easterEggUnlocked && !this.aiThinking && this.gameActive) {
-                    this.setLinusMsg("Has purgado la columna central... muy sucio.");
+                    this.setOpponentMsg("Has purgado la columna central... muy sucio.");
                     for (let r = 0; r < this.rows; r++) {
                         this.board[r][3] = 0;
                     }
@@ -234,11 +234,11 @@ export class Connect4Game {
             this.renderBoard();
         }
 
-        this.setLinusMsg("El compilador está listo. Haz tu movimiento (O(1)).");
+        this.setOpponentMsg("The compiler is ready. Make your move (O(1)).");
     }
 
-    private setLinusMsg(msg: string) {
-        const el = this.container.querySelector('#linus-msg');
+    private setOpponentMsg(msg: string) {
+        const el = this.container.querySelector('#opponent-msg');
         if (el) el.textContent = msg;
     }
 
@@ -274,7 +274,7 @@ export class Connect4Game {
                 this.endGame(0, null);
             } else {
                 this.aiThinking = true;
-                this.setLinusMsg("Analizando árbol Minimax...");
+                this.setOpponentMsg("Searching the minimax tree...");
                 setTimeout(() => this.makeAIMove(), 500); // Pequeña pausa para efecto
             }
         }
@@ -323,12 +323,12 @@ export class Connect4Game {
         } else {
             const taunts = [
                 "Esa jugada tiene complejidad O(n!). Ineficiente.",
-                "Mi kernel nunca fallaría así.",
-                "Deberías leer la documentación del Conecta 4.",
-                "Tu poda alfa-beta es débil.",
+                "My kernel would never fail like that.",
+                "You should read the Connect 4 documentation.",
+                "Your alpha-beta pruning is weak.",
                 "Casi tan malo como usar espacios en vez de tabs."
             ];
-            this.setLinusMsg(taunts[Math.floor(Math.random() * taunts.length)]);
+            this.setOpponentMsg(taunts[Math.floor(Math.random() * taunts.length)]);
             this.aiThinking = false;
         }
     }
@@ -498,13 +498,13 @@ export class Connect4Game {
         if (controls) controls.classList.remove('hidden');
         
         const btn = this.container.querySelector('#play-game-btn') as HTMLButtonElement | null;
-        if (btn) btn.innerText = "JUGAR DE NUEVO";
+        if (btn) btn.innerText = "PLAY AGAIN";
 
         const boardEl = this.container.querySelector('#c4-board') as HTMLElement;
         if (boardEl) boardEl.style.pointerEvents = 'none';
 
         if (winner === 1) {
-            this.setLinusMsg("¡Imposible! ...Seguro encontraste un bug en mi código.");
+            this.setOpponentMsg("Impossible! ...You must have found a bug in my code.");
             try {
                 const userId = this.getUserId();
                 await fetch(`${this.apiUrl}/reward_coins`, {
@@ -517,14 +517,14 @@ export class Connect4Game {
                 });
                 document.dispatchEvent(new Event('coin-collected'));
                 const status = this.container.querySelector('#game-status') as HTMLElement;
-                if(status) status.innerText = "¡Ganaste 150 monedas!";
+                if(status) status.innerText = "You won 150 coins!";
             } catch(e) { console.error(e); }
         } else if (winner === 2) {
-            this.setLinusMsg("Git commit -m 'Victoria sobre humano'.");
+            this.setOpponentMsg("Git commit -m 'Victoria sobre humano'.");
             const status = this.container.querySelector('#game-status') as HTMLElement;
             if(status) status.innerText = "Perdiste. Linus gana.";
         } else {
-            this.setLinusMsg("Empate. Código espagueti por ambos lados.");
+            this.setOpponentMsg("Draw. Spaghetti code on both sides.");
             try {
                 const userId = this.getUserId();
                 await fetch(`${this.apiUrl}/reward_coins`, {
@@ -534,7 +534,7 @@ export class Connect4Game {
                 });
                 document.dispatchEvent(new Event('coin-collected'));
                 const status = this.container.querySelector('#game-status') as HTMLElement;
-                if(status) status.innerText = "Empate. Recuperas tus 75 monedas.";
+                if(status) status.innerText = "Draw. You get your 75 coins back.";
             } catch(e) { console.error(e); }
         }
     }

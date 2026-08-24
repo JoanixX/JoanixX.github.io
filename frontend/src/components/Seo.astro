@@ -1,0 +1,80 @@
+---
+import { absoluteUrl, withBase } from "../lib/url";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Path relative to the site base, e.g. "projects/". Used for canonical + og:url. */
+  path?: string;
+  ogType?: "website" | "profile" | "article";
+}
+
+const { title, description, path = "", ogType = "website" } = Astro.props;
+
+const canonical = absoluteUrl(path, Astro.site);
+const ogImage = absoluteUrl("og-image.png", Astro.site);
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Joaquin Alvarado",
+  alternateName: "Cesar Joaquin Alvarado Osorio",
+  jobTitle: "Backend & Machine Learning Engineer",
+  url: absoluteUrl("", Astro.site),
+  image: ogImage,
+  sameAs: ["https://github.com/JoanixX"],
+  nationality: "PE",
+  alumniOf: {
+    "@type": "CollegeOrUniversity",
+    name: "Universidad Peruana de Ciencias Aplicadas (UPC)",
+  },
+  knowsAbout: [
+    "Backend Engineering",
+    "Machine Learning",
+    "Rust",
+    "Python",
+    "Go",
+    "FastAPI",
+    "Axum",
+    "PostgreSQL",
+    "Redis",
+    "Docker",
+    "Distributed Systems",
+    "Information Retrieval",
+  ],
+};
+---
+
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="author" content="Joaquin Alvarado" />
+
+<!-- Open Graph: this is what LinkedIn, Slack and WhatsApp read. They do not run JS. -->
+<meta property="og:type" content={ogType} />
+<meta property="og:site_name" content="Joaquin Alvarado — Backend & Machine Learning Engineer" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:secure_url" content={ogImage} />
+<meta property="og:image:type" content="image/png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Joaquin Alvarado — Backend & Machine Learning Engineer" />
+<meta property="og:locale" content="en_US" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<link rel="icon" type="image/svg+xml" href={withBase("favicon.svg")} />
+
+<script type="application/ld+json" set:html={JSON.stringify(personSchema)} is:inline />

@@ -48,9 +48,9 @@ export class FishingGame {
             <div id="entities-container"></div>
             
             <div class="game-controls">
-                <div id="game-status" class="status-msg">Presiona JUGAR para comenzar</div>
+                <div id="game-status" class="status-msg">Press PLAY to start</div>
                 <div id="game-score" class="score-display"></div>
-                <button id="play-game-btn" class="btn reward">JUGAR (75 Coins)</button>
+                <button id="play-game-btn" class="btn reward">PLAY (75 Coins)</button>
             </div>
         `;
         
@@ -115,7 +115,7 @@ export class FishingGame {
                 const controls = this.container.querySelector('.game-controls');
                 if (controls) controls.classList.add('hidden');
 
-                if (statusEl) statusEl.innerText = "¡A pescar! (Usa ESPACIO)";
+                if (statusEl) statusEl.innerText = "Cast away! (use SPACE)";
                 this.start();
             } else {
                 const err = await res.json();
@@ -186,11 +186,11 @@ export class FishingGame {
 
         // 5. ganar perder
         if (this.score >= 150) {
-            this.end("¡Límite de ganancias alcanzado! (150)");
+            this.end("Winnings cap reached! (150)");
             return;
         }
         if (this.score < 0) {
-            this.end("¡Puntos negativos! Game Over.");
+            this.end("Negative score! Game over.");
             return;
         }
 
@@ -210,7 +210,7 @@ export class FishingGame {
             this.hookState = 'dropping';
         } else if (this.hookState === 'waiting') {
             this.hookState = 'reeling';
-            if (statusEl) statusEl.innerText = "¡Subiendo!";
+            if (statusEl) statusEl.innerText = "Reeling in!";
         }
     }
 
@@ -346,7 +346,7 @@ export class FishingGame {
                     hookCenter.y >= entityRect.top && 
                     hookCenter.y <= entityRect.bottom
                 ) {
-                    this.flashMsg("¡Se escapó! 🥫");
+                    this.flashMsg("It got away! 🥫");
                     this.caughtEntity.el.remove();
                     this.caughtEntity = null;
                     break;
@@ -396,7 +396,7 @@ export class FishingGame {
         if (statusEl) {
             statusEl.innerText = msg;
             setTimeout(() => { 
-                if(statusEl.innerText === msg || statusEl.innerText === "¡Subiendo!") {
+                if(statusEl.innerText === msg || statusEl.innerText === "Reeling in!") {
                     statusEl.innerText = "Usa ESPACIO para controlar el anzuelo.";
                 }
             }, 1500);
@@ -409,12 +409,12 @@ export class FishingGame {
         if (controls) controls.classList.remove('hidden');
         
         const btn = this.container.querySelector('#play-game-btn') as HTMLButtonElement | null;
-        if (btn) btn.innerText = "JUGAR DE NUEVO";
+        if (btn) btn.innerText = "PLAY AGAIN";
 
         const statusEl = this.container.querySelector('#game-status') as HTMLElement; 
         let finalStatus = reason;
         if (this.score > 0) {
-            finalStatus += ` Ganaste: ${this.score} monedas.`;
+            finalStatus += ` You won ${this.score} coins.`;
             try {
                 const userId = this.getUserId();
                 await fetch(`${this.apiUrl}/reward_coins`, {
