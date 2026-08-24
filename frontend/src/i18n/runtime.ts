@@ -24,6 +24,9 @@ const strings = {
   comingSoon: { en: "COMING SOON", es: "PRÓXIMAMENTE" },
   underConstruction: { en: "UNDER CONSTRUCTION", es: "EN CONSTRUCCIÓN" },
 
+  featuredProject: { en: "FEATURED PROJECT", es: "PROYECTO DESTACADO" },
+  viewProject: { en: "VIEW PROJECT", es: "VER PROYECTO" },
+
   // shared minigame chrome
   pressPlay: { en: "Press PLAY to start", es: "Presiona JUGAR para comenzar" },
   play75: { en: "PLAY (75 Coins)", es: "JUGAR (75 Monedas)" },

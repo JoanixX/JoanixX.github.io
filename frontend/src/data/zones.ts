@@ -15,6 +15,8 @@ export interface Project {
   image: string;
   tech: string;
   github: string;
+  /** What the button should say — an employer link is not a "GitHub Repo". */
+  linkLabel: string;
   featured?: boolean;
 }
 
@@ -67,6 +69,8 @@ const ZONE_TITLES: Record<string, Localized<string>> = {
 };
 
 const PROJECTS_ROUTE: Localized<string> = { en: "projects/", es: "es/proyectos/" };
+const REPO_LABEL: Localized<string> = { en: "GitHub Repo", es: "Repositorio GitHub" };
+const MORE_LABEL: Localized<string> = { en: "More", es: "Más" };
 
 function toGameProject(p: ProjectEntry, sectionId: string, locale: Locale): Project {
   return {
@@ -76,9 +80,10 @@ function toGameProject(p: ProjectEntry, sectionId: string, locale: Locale): Proj
     description: p.blurb[locale],
     image: cardArt(p.name, ACCENT_HEX[sectionId] ?? "#e6e9ef"),
     tech: p.tech.join(", "),
-    // Entries with no public source (NDA work, no-code) point at the static page
-    // instead of a dead "#" href.
-    github: p.repo ?? `${import.meta.env.BASE_URL}${PROJECTS_ROUTE[locale]}#${sectionId}`,
+    // An experience entry links to where the role is documented, not to a
+    // repository — claiming an employer's codebase as your own is not on.
+    github: p.repo ?? p.link?.url ?? `${import.meta.env.BASE_URL}${PROJECTS_ROUTE[locale]}#${sectionId}`,
+    linkLabel: p.repo ? REPO_LABEL[locale] : (p.link?.label[locale] ?? MORE_LABEL[locale]),
     featured: p.featured,
   };
 }

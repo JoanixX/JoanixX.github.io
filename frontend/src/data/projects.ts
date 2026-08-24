@@ -19,6 +19,8 @@ export interface ProjectEntry {
   demo?: string;
   /** Shown instead of a repo link when there genuinely is no public repository. */
   noRepoReason?: Localized<string>;
+  /** For experience entries: where to read about the role, not its source code. */
+  link?: { url: string; label: Localized<string> };
   /** Team context, when the work is not solo. */
   role?: Localized<string>;
   featured?: boolean;
@@ -96,6 +98,32 @@ export const sections: ProjectSection[] = [
         tech: ["Rust", "Axum", "PostgreSQL", "Redis", "JWT", "SHA-256"],
         repo: "https://github.com/JoanixX/secure_banking_auth_service",
         featured: true,
+      },
+      {
+        id: "b2b-product-catalog-quote-system",
+        name: "B2B Catalog & Quotation Platform",
+        tagline: {
+          en: "Rust/Axum backend for a lead-generation catalogue",
+          es: "Backend en Rust/Axum para un catálogo de generación de leads",
+        },
+        blurb: {
+          en: "A catalogue platform for companies that do not sell online but generate leads through quotations. The public side browses products with search, filters and PDF datasheets and submits quote requests; behind it sits an admin panel with full CRUD over products and categories, file uploads and request management. Peruvian tax IDs are validated with the Módulo 11 checksum rather than a length check, so an invalid RUC is rejected at the form instead of downstream.",
+          es: "Una plataforma de catálogo para empresas que no venden en línea sino que generan leads mediante cotizaciones. El lado público navega productos con búsqueda, filtros y fichas técnicas en PDF y envía solicitudes de cotización; detrás hay un panel de administración con CRUD completo sobre productos y categorías, carga de archivos y gestión de solicitudes. Los RUC peruanos se validan con el algoritmo de Módulo 11 y no por longitud, así que un RUC inválido se rechaza en el formulario y no aguas abajo.",
+        },
+        metrics: {
+          en: [
+            "Rust and Axum over PostgreSQL, with S3-compatible file storage",
+            "JWT authentication with Argon2id password hashing",
+            "Astro and TypeScript frontend with Nano Stores for shared state",
+          ],
+          es: [
+            "Rust y Axum sobre PostgreSQL, con almacenamiento de archivos compatible con S3",
+            "Autenticación JWT con hashing de contraseñas mediante Argon2id",
+            "Frontend en Astro y TypeScript con Nano Stores para el estado compartido",
+          ],
+        },
+        tech: ["Rust", "Axum", "PostgreSQL", "JWT", "Argon2id", "Astro", "TypeScript", "S3"],
+        repo: "https://github.com/JoanixX/b2b-product-catalog-quote-system",
       },
       {
         id: "tutorgo-2",
@@ -313,6 +341,32 @@ export const sections: ProjectSection[] = [
         repo: "https://github.com/JoanixX/semantic-search-court-records",
         featured: true,
       },
+      {
+        id: "pictogram-web",
+        name: "PictoChat",
+        tagline: {
+          en: "Pictogram-based communication assistant",
+          es: "Asistente de comunicación con pictogramas",
+        },
+        blurb: {
+          en: "An augmentative-communication web app that turns Spanish text into pictograms in real time. A FastAPI backend serves both REST and WebSocket chat, lemmatises incoming text with spaCy before looking the terms up against the ARASAAC pictogram set, and drives a sentence builder and a tutor assistant on a React client.",
+          es: "Una aplicación web de comunicación aumentativa que convierte texto en español a pictogramas en tiempo real. Un backend en FastAPI sirve chat por REST y WebSocket, lematiza el texto entrante con spaCy antes de buscar los términos contra el conjunto de pictogramas ARASAAC, y alimenta un constructor de oraciones y un asistente tutor en un cliente React.",
+        },
+        metrics: {
+          en: [
+            "FastAPI over REST and WebSockets; React and Vite client",
+            "spaCy es_core_news_lg lemmatises Spanish before the pictogram lookup, so inflected forms resolve to one symbol",
+            "Photo-to-pictogram classification is listed as conditional in the repository — treat that piece as partial",
+          ],
+          es: [
+            "FastAPI sobre REST y WebSockets; cliente en React y Vite",
+            "spaCy es_core_news_lg lematiza el español antes de buscar el pictograma, así las formas flexionadas resuelven a un mismo símbolo",
+            "La clasificación de foto a pictograma figura como condicional en el repositorio — esa parte está incompleta",
+          ],
+        },
+        tech: ["Python", "FastAPI", "WebSockets", "spaCy", "TensorFlow/Keras", "React", "Vite", "Tailwind CSS"],
+        repo: "https://github.com/JoanixX/pictogram-web",
+      },
     ],
   },
   {
@@ -428,9 +482,9 @@ export const sections: ProjectSection[] = [
           es: ["Rol actual", "Trabajo de backend y automatización bajo confidencialidad"],
         },
         tech: ["Python", "TypeScript", "PostgreSQL", "Docker", "CI/CD"],
-        noRepoReason: {
-          en: "Work is confidential — no public repository.",
-          es: "Trabajo confidencial — sin repositorio público.",
+        link: {
+          url: "https://www.linkedin.com/in/cesar-joaquin-alvarado-osorio-189aa4262/",
+          label: { en: "Role on LinkedIn", es: "El puesto en LinkedIn" },
         },
       },
       {
@@ -457,7 +511,10 @@ export const sections: ProjectSection[] = [
           ],
         },
         tech: ["Python", "FastAPI", "SQLAlchemy", "PostgreSQL", "JWT", "gunicorn", "Azure"],
-        repo: "https://github.com/JoanixX/ChambeaYa_Backend",
+        link: {
+          url: "https://www.linkedin.com/in/cesar-joaquin-alvarado-osorio-189aa4262/",
+          label: { en: "Role on LinkedIn", es: "El puesto en LinkedIn" },
+        },
       },
       {
         id: "kreante",
@@ -475,9 +532,9 @@ export const sections: ProjectSection[] = [
           es: ["Entrega no-code en Bubble"],
         },
         tech: ["Bubble", "No-code"],
-        noRepoReason: {
-          en: "No-code platform work — nothing to host on GitHub.",
-          es: "Trabajo en plataforma no-code — no hay nada que alojar en GitHub.",
+        link: {
+          url: "https://www.linkedin.com/in/cesar-joaquin-alvarado-osorio-189aa4262/",
+          label: { en: "Role on LinkedIn", es: "El puesto en LinkedIn" },
         },
       },
     ],

@@ -521,7 +521,7 @@ const youLabel = { en: 'YOU', es: 'TÚ' }[lang];
     });
 </script>
 
-<style define:vars={{ charactersPath: `url('${import.meta.env.BASE_URL}/characters.png')` }}>
+<style define:vars={{ charactersPath: `url('${withBase("characters.png")}')` }}>
     .game-container {
         width: 100vw;
         height: 100vh;
