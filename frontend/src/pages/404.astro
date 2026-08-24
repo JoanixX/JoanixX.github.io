@@ -1,0 +1,125 @@
+---
+// GitHub Pages serves this file for any path it cannot match, which makes it the
+// only catch-all available on a static host. Its main job is to rescue the old
+// /portafolio/* URLs shared before the repo was renamed — the explicit entries in
+// astro.config.mjs cover the known ones, this covers everything else.
+import { sections } from '../data/projects';
+
+// Kept in sync with the route table by construction, so a new page cannot be
+// forgotten here.
+const knownRoutes = ['/', '/projects/', '/es/', '/es/proyectos/'];
+const sectionCount = sections.length;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Page not found — Joaquin Alvarado</title>
+		<meta name="robots" content="noindex, follow" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+		<!--
+			Runs before the body paints, so a visitor following an old link is moved on
+			without seeing this page at all. Inline and in <head> on purpose: a bundled
+			module would load too late and flash the 404 first.
+		-->
+		<script is:inline define:vars={{ knownRoutes }}>
+			(function () {
+				var legacy = /^\/portafolio(\/|$)/;
+				var path = window.location.pathname;
+				if (!legacy.test(path)) return;
+
+				// Strip the old prefix, then normalise to a trailing slash so
+				// "/projects" and "/projects/" both match the route table.
+				var rest = path.replace(legacy, '/');
+				if (!rest.endsWith('/')) rest += '/';
+
+				// The old Spanish slug, if it was ever shared under the old prefix.
+				if (rest === '/proyectos/') rest = '/projects/';
+
+				// Anything that is not a real route goes to the homepage rather than
+				// to another 404 — the old site had no pages beyond these.
+				var target = knownRoutes.indexOf(rest) === -1 ? '/' : rest;
+
+				window.location.replace(target + window.location.search + window.location.hash);
+			})();
+		</script>
+	</head>
+
+	<body>
+		<main>
+			<p class="eyebrow">404</p>
+			<h1>Page not found</h1>
+			<p class="lede">
+				Nothing lives at this address. If you followed a link starting with
+				<code>/portafolio/</code>, that prefix is gone — the site now sits at the root of
+				the domain, and you should have been sent on automatically.
+			</p>
+			<p class="lede sub">Todo sigue disponible, en inglés y en español:</p>
+
+			<ul class="links">
+				<li><a href="/projects/">All projects</a> <span>— {sectionCount} sections, every entry with its source</span></li>
+				<li><a href="/">Interactive portfolio</a> <span>— the game</span></li>
+				<li><a href="/es/proyectos/">Proyectos</a> <span>— la misma lista, en español</span></li>
+				<li><a href="https://github.com/JoanixX" rel="noopener">GitHub</a></li>
+			</ul>
+		</main>
+
+		<style is:global>
+			:root { color-scheme: dark; }
+			* { margin: 0; padding: 0; box-sizing: border-box; }
+
+			body {
+				background: #0a0a16;
+				color: #e6e9ef;
+				font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+				line-height: 1.6;
+				min-height: 100vh;
+				display: grid;
+				place-items: center;
+				padding: 2rem 1.25rem;
+			}
+
+			main { max-width: 36rem; }
+
+			.eyebrow {
+				font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+				color: #ffd43b;
+				letter-spacing: 0.12em;
+				font-size: 0.8rem;
+			}
+
+			h1 {
+				font-size: clamp(1.7rem, 5vw, 2.4rem);
+				letter-spacing: -0.02em;
+				line-height: 1.15;
+				margin: 0.5rem 0 1rem;
+			}
+
+			.lede { color: #a2a9b8; }
+			.lede.sub { margin-top: 0.9rem; }
+
+			code {
+				font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+				background: rgba(255, 255, 255, 0.06);
+				border-radius: 3px;
+				padding: 0.1em 0.35em;
+				font-size: 0.9em;
+			}
+
+			.links {
+				list-style: none;
+				margin-top: 1.6rem;
+				display: grid;
+				gap: 0.75rem;
+			}
+
+			.links a { color: #8ec5ff; font-weight: 600; text-underline-offset: 3px; }
+			.links span { color: #7b8394; font-size: 0.9rem; }
+
+			:focus-visible { outline: 2px solid #8ec5ff; outline-offset: 3px; }
+		</style>
+	</body>
+</html>
