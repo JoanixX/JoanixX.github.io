@@ -1,18 +1,26 @@
 ---
 import { absoluteUrl, withBase } from "../lib/url";
+import { LOCALES, LOCALE_TAGS, DEFAULT_LOCALE, routePath, type Locale, type RouteKey } from "../i18n/config";
 
 interface Props {
   title: string;
   description: string;
-  /** Path relative to the site base, e.g. "projects/". Used for canonical + og:url. */
-  path?: string;
+  lang: Locale;
+  /** Which page this is, so the hreflang alternates can be derived. */
+  route: RouteKey;
   ogType?: "website" | "profile" | "article";
 }
 
-const { title, description, path = "", ogType = "website" } = Astro.props;
+const { title, description, lang, route, ogType = "website" } = Astro.props;
 
-const canonical = absoluteUrl(path, Astro.site);
+const canonical = absoluteUrl(routePath(route, lang), Astro.site);
 const ogImage = absoluteUrl("og-image.png", Astro.site);
+
+// hreflang tells Google these are translations of one page, not duplicates.
+const alternates = LOCALES.map((l) => ({
+  hreflang: LOCALE_TAGS[l],
+  href: absoluteUrl(routePath(route, l), Astro.site),
+}));
 
 const personSchema = {
   "@context": "https://schema.org",
@@ -22,7 +30,11 @@ const personSchema = {
   jobTitle: "Backend & Machine Learning Engineer",
   url: absoluteUrl("", Astro.site),
   image: ogImage,
-  sameAs: ["https://github.com/JoanixX"],
+  email: "mailto:alvaradocjosorio@gmail.com",
+  sameAs: [
+    "https://github.com/JoanixX",
+    "https://www.linkedin.com/in/cesar-joaquin-alvarado-osorio-189aa4262/",
+  ],
   nationality: "PE",
   alumniOf: {
     "@type": "CollegeOrUniversity",
@@ -53,6 +65,9 @@ const personSchema = {
 <meta name="description" content={description} />
 <link rel="canonical" href={canonical} />
 
+{alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+<link rel="alternate" hreflang="x-default" href={absoluteUrl(routePath(route, DEFAULT_LOCALE), Astro.site)} />
+
 <meta name="robots" content="index, follow, max-image-preview:large" />
 <meta name="author" content="Joaquin Alvarado" />
 
@@ -68,7 +83,8 @@ const personSchema = {
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="Joaquin Alvarado — Backend & Machine Learning Engineer" />
-<meta property="og:locale" content="en_US" />
+<meta property="og:locale" content={lang === "es" ? "es_PE" : "en_US"} />
+<meta property="og:locale:alternate" content={lang === "es" ? "en_US" : "es_PE"} />
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />

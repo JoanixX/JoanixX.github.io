@@ -6,8 +6,12 @@ The site has two front doors on purpose:
 
 | Route | What it is | Who it is for |
 | :--- | :--- | :--- |
-| `/` | A 2D game-like map: walk a character around, open zones, play minigames, collect coins, buy skins. | Anyone with a browser and a few minutes. |
-| `/projects` | A flat, prerendered HTML page listing all 15 entries with metrics and source links. | Recruiters in a hurry, and every crawler — LinkedIn, Slack, Google — none of which run JavaScript. |
+| `/` · `/es/` | A 2D game-like map: walk a character around, open zones, play minigames, collect coins, buy skins. | Anyone with a browser and a few minutes. |
+| `/projects` · `/es/proyectos` | A flat, prerendered HTML page listing all 15 entries with metrics and source links. | Recruiters in a hurry, and every crawler — LinkedIn, Slack, Google — none of which run JavaScript. |
+
+Both languages are fully prerendered and cross-linked with `hreflang`, so Google
+indexes them as translations rather than duplicates. English is the default and
+is served without a URL prefix.
 
 The game's zone content is not duplicated: both routes read from
 `frontend/src/data/projects.ts`, so a single edit updates the map and the static
@@ -26,9 +30,11 @@ the content is in the file on disk.
 ```text
 portafolio/
 ├── frontend/     # Astro + TypeScript. The site itself.
-│   ├── src/data/projects.ts      # Single source of truth for all project content
+│   ├── src/data/projects.ts      # Single source of truth (bilingual) for all project content
 │   ├── src/data/zones.ts         # Game zones, derived from projects.ts
-│   ├── src/pages/projects.astro  # The static, crawlable page
+│   ├── src/i18n/                 # Locale config, build-time strings, runtime strings
+│   ├── src/pages/projects.astro  # The static, crawlable page (EN)
+│   ├── src/pages/es/             # Spanish routes
 │   └── public/og-image.png       # Link preview card (1200x630)
 └── backend/      # Rust + Actix-web. In-memory coin/skin state for the game.
 ```

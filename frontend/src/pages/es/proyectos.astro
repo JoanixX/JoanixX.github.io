@@ -1,0 +1,10 @@
+---
+import PlainLayout from '../../layouts/PlainLayout.astro';
+import ProjectsView from '../../components/ProjectsView.astro';
+import { ui } from '../../i18n/ui';
+
+const lang = 'es' as const;
+---
+<PlainLayout title={ui.pageTitle[lang]} description={ui.pageDescription[lang]} lang={lang} route="projects">
+	<ProjectsView lang={lang} />
+</PlainLayout>

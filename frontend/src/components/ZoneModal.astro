@@ -1,5 +1,10 @@
 ---
 import { withBase } from "../lib/url";
+import { ui } from "../i18n/ui";
+import { type Locale } from "../i18n/config";
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
 ---
 
 <div id="zone-modal" class="modal-backdrop hidden">
@@ -22,7 +27,7 @@ import { withBase } from "../lib/url";
             </div>
 
             <div id="modal-actions" class="modal-actions">
-                <button id="claim-reward" class="btn reward hidden">Claim Reward (+50 coins)</button>
+                <button id="claim-reward" class="btn reward hidden">{ui.claimReward[lang]}</button>
             </div>
         </div>
 
@@ -36,12 +41,12 @@ import { withBase } from "../lib/url";
                 <h3 id="detail-name">Project Name</h3>
                 <p id="detail-desc">Full project description...</p>
                 <div class="tech-stack">
-                    <span class="tech-label">TECH STACK:</span>
+                    <span class="tech-label">{ui.techStack[lang]}</span>
                     <p id="detail-tech">Rust, Actix, PostgreSQL</p>
                 </div>
                 <div class="detail-actions">
-                    <a href="#" id="detail-repo" class="btn secondary" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
-                    <button id="detail-claim" class="btn reward">Reward (+25 coins)</button>
+                    <a href="#" id="detail-repo" class="btn secondary" target="_blank" rel="noopener noreferrer">{ui.githubRepo[lang]}</a>
+                    <button id="detail-claim" class="btn reward">{ui.reward25[lang]}</button>
                 </div>
             </div>
         </div>
@@ -56,9 +61,9 @@ import { withBase } from "../lib/url";
             <div id="fish-game-area" class="game-area-box">
                 <!-- canvas del juego -->
                 <div class="game-controls">
-                    <div id="game-status" class="status-msg">Press PLAY to start</div>
+                    <div id="game-status" class="status-msg">{ui.pressPlay[lang]}</div>
                     <div id="game-score" class="score-display"></div>
-                    <button id="play-game-btn" class="btn reward">PLAY (75 Coins)</button>
+                    <button id="play-game-btn" class="btn reward">{ui.play75[lang]}</button>
                 </div>
             </div>
             <div id="minigame-placeholder-msg" class="placeholder-text hidden"></div>
@@ -81,7 +86,8 @@ import { withBase } from "../lib/url";
 </style>
 
 <script>
-    import { contentMap, type Project, type ZoneContent } from '../data/zones';
+    import { getContentMap, type Project, type ZoneContent } from '../data/zones';
+    import { gt, currentLocale } from '../i18n/runtime';
     import { FishingGame } from '../game/fishing';
     import { Connect4Game } from '../game/connect4';
     import { QuizGame } from '../game/quiz';
@@ -150,7 +156,7 @@ import { withBase } from "../lib/url";
     // abrir zona
     document.addEventListener('open-zone', (e: any) => {
         const zoneId = e.detail.zone;
-        const data = contentMap[zoneId];
+        const data = getContentMap(currentLocale())[zoneId];
         
         if (activeFunctionsGame) {
             activeFunctionsGame.cleanup();
@@ -224,15 +230,15 @@ import { withBase } from "../lib/url";
                         rewardBtn?.classList.remove('hidden');
                         
                         if (claimedRewardIds.has(zoneId)) {
-                            rewardBtn!.innerText = 'CLAIMED ✓';
+                            rewardBtn!.innerText = gt('claimed');
                             rewardBtn!.classList.add('claimed');
                             (rewardBtn as any).disabled = true;
                             rewardBtn!.onclick = null;
                         } else {
-                            rewardBtn!.innerText = 'Claim Reward (+50 coins)';
+                            rewardBtn!.innerText = gt('claimReward');
                             rewardBtn!.classList.remove('claimed');
                             (rewardBtn as any).disabled = false;
-                            rewardBtn!.onclick = () => doClaim(zoneId, 50, rewardBtn);
+                            rewardBtn!.onclick = () => doClaim(zoneId, 50, rewardBtn!);
                         }
                     } else {
                         actionContainer?.classList.add('hidden');
@@ -300,9 +306,9 @@ import { withBase } from "../lib/url";
             // hud placeholders
             fishGameArea.innerHTML = `
                 <div class="game-controls">
-                    <div id="game-status" class="status-msg">COMING SOON</div>
+                    <div id="game-status" class="status-msg">${gt("comingSoon")}</div>
                     <div id="game-score" class="score-display"></div>
-                    <button class="btn reward" disabled>UNDER CONSTRUCTION</button>
+                    <button class="btn reward" disabled>${gt("underConstruction")}</button>
                 </div>
             `;
         }
@@ -319,12 +325,12 @@ import { withBase } from "../lib/url";
         detailsPanel.classList.remove('hidden');
 
         if (claimedRewardIds.has(p.id)) {
-            detailClaim.innerText = 'CLAIMED ✓';
+            detailClaim.innerText = gt('claimed');
             detailClaim.classList.add('claimed');
             (detailClaim as any).disabled = true;
             detailClaim.onclick = null;
         } else {
-            detailClaim.innerText = 'Reward (+25 coins)';
+            detailClaim.innerText = gt('reward25');
             detailClaim.classList.remove('claimed');
             (detailClaim as any).disabled = false;
             detailClaim.onclick = () => doClaim(p.id, 25, detailClaim as HTMLElement);
@@ -343,7 +349,7 @@ import { withBase } from "../lib/url";
             });
             if (res.ok) {
                 document.dispatchEvent(new Event('coin-collected'));
-                el.innerText = 'CLAIMED ✓';
+                el.innerText = gt('claimed');
                 el.classList.add('claimed');
                 (el as any).disabled = true;
                 

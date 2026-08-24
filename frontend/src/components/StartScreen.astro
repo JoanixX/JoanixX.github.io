@@ -1,17 +1,25 @@
 ---
 import { withBase } from '../lib/url';
+import { ui } from '../i18n/ui';
+import { routePath, otherLocale, LOCALE_NAMES, type Locale } from '../i18n/config';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const other = otherLocale(lang);
 ---
 
 <div id="start-screen" class="start-screen">
+    <a href={withBase(routePath('home', other))} class="lang-toggle" hreflang={other} lang={other}>{LOCALE_NAMES[other]}</a>
+
     <div class="main-wrapper">
         <!-- area interactiva izq -->
         <div class="left-panel">
             <div class="brand">
                 <h1>JOAQUIN ALVARADO</h1>
-                <p class="subtitle">Backend &amp; Machine Learning Engineer</p>
+                <p class="subtitle">{ui.role[lang]}</p>
             </div>
             <button id="btn-start" class="btn-pixel">PRESS START</button>
-            <a href={withBase('projects/')} class="skip-link">In a hurry? See all 15 projects &rarr;</a>
+            <a href={withBase(routePath('projects', lang))} class="skip-link">{ui.hurryLink[lang]} &rarr;</a>
         </div>
 
         <!-- separador cadenas -->
@@ -24,24 +32,21 @@ import { withBase } from '../lib/url';
         <!-- area sobre mi -->
         <div class="right-panel">
             <div class="about-me glass-panel">
-                <h2>Who am I?</h2>
+                <h2>{ui.whoAmI[lang]}</h2>
                 <div class="about-content">
                     <div class="about-top">
-                        <p>I am Joaquin Alvarado, a Computer Science student at UPC in Peru
-                        and a software engineering intern at Zoluxiones. I build backends in
-                        Rust, Python and Go, and machine learning systems that report the
-                        metric they were actually evaluated on. Open to remote roles.</p>
+                        <p>{ui.aboutMe[lang]}</p>
                         <div class="about-image">
                             <img src={withBase('CV_Yo.png')} alt="Joaquin Alvarado" class="profile-img" />
                         </div>
                     </div>
                     <div class="extra-info">
                         <div class="info-item">
-                            <span class="label">Focus</span>
-                            <span class="value">Backend &amp; ML</span>
+                            <span class="label">{ui.focusLabel[lang]}</span>
+                            <span class="value">{ui.focusValue[lang]}</span>
                         </div>
                         <div class="info-item">
-                            <span class="label">Stack</span>
+                            <span class="label">{ui.stackLabel[lang]}</span>
                             <span class="value">Rust / Python / Go</span>
                         </div>
                     </div>
@@ -367,5 +372,33 @@ import { withBase } from '../lib/url';
 
     @media (max-width: 768px) {
         .skip-link { font-size: 0.5rem; }
+    }
+</style>
+
+<style>
+    /* Language toggle, rendered as a real link so both locales are crawlable. */
+    .lang-toggle {
+        position: absolute;
+        top: 1.2rem;
+        right: 1.4rem;
+        z-index: 20;
+        font-size: 0.5rem;
+        line-height: 1;
+        color: #e0e6ed;
+        border: 2px solid rgba(255, 212, 59, 0.5);
+        border-radius: 4px;
+        padding: 0.55rem 0.75rem;
+        background: rgba(10, 10, 22, 0.75);
+        transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .lang-toggle:hover,
+    .lang-toggle:focus-visible {
+        color: #ffd43b;
+        border-color: #ffd43b;
+    }
+
+    @media (max-width: 768px) {
+        .lang-toggle { top: 0.7rem; right: 0.7rem; font-size: 0.45rem; padding: 0.45rem 0.6rem; }
     }
 </style>

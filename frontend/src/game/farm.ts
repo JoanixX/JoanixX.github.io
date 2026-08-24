@@ -1,3 +1,4 @@
+import { gt, gtf } from '../i18n/runtime';
 export class FarmGame {
     private apiUrl: string;
     private container: HTMLElement;
@@ -35,7 +36,7 @@ export class FarmGame {
                 <div style="position: absolute; top: 20px; right: 25px; z-index: 10; font-family: monospace; font-size: 1rem; font-weight: 800; color: #ffd43b; text-shadow: 2px 2px 4px #000;">
                     COINS: <span id="farm-score">0</span>
                 </div>
-                <div id="farm-easter" style="position: absolute; top: 45px; right: 25px; z-index: 10; font-size: 1.2rem; cursor: pointer; filter: drop-shadow(1px 1px 2px #000);" title="Empty nest">🪹</div>
+                <div id="farm-easter" style="position: absolute; top: 45px; right: 25px; z-index: 10; font-size: 1.2rem; cursor: pointer; filter: drop-shadow(1px 1px 2px #000);" title="${gt('emptyNest')}">🪹</div>
                 
                 <!-- PLAY AREA -->
                 <div id="farm-play-area" style="width: 100%; height: 100%; position: relative; pointer-events: auto;">
@@ -116,7 +117,7 @@ export class FarmGame {
                     (nest as HTMLElement).title = "Huevo Dorado de Granjero Dios";
                     this.score += 100;
                     this.updateHUD();
-                    this.showFloatText("SECRET GOLDEN EGG! +100", (e as MouseEvent).clientX - this.container.getBoundingClientRect().left, 50, "#ffd43b");
+                    this.showFloatText(gt("goldenEgg"), (e as MouseEvent).clientX - this.container.getBoundingClientRect().left, 50, "#ffd43b");
                 }
             });
         }
@@ -155,7 +156,7 @@ export class FarmGame {
         this.clickCount = 0;
 
         const nest = this.container.querySelector('#farm-easter') as HTMLElement;
-        if(nest) { nest.textContent = '🪹'; nest.title = "Empty nest"; }
+        if(nest) { nest.textContent = '🪹'; nest.title = gt("emptyNest"); }
 
         const farmUi = this.container.querySelector('#farm-ui') as HTMLElement;
         if (farmUi) farmUi.style.display = 'flex';
@@ -235,7 +236,7 @@ export class FarmGame {
             this.showFloatText("-50", x, y, "#c92a2a");
         } else if (type === 'fox') {
             this.score += 50;
-            this.showFloatText("FOX CAUGHT! +50", x, y, "#ffd43b");
+            this.showFloatText(gt("foxCaught"), x, y, "#ffd43b");
         }
 
         this.updateHUD();
@@ -382,7 +383,7 @@ export class FarmGame {
         if (controls) controls.classList.remove('hidden');
 
         const btn = this.container.querySelector('#play-game-btn') as HTMLButtonElement | null;
-        if (btn) btn.innerText = "PLAY AGAIN (75 Coins)";
+        if (btn) btn.innerText = gt("playAgain75");
 
         const status = this.container.querySelector('#game-status') as HTMLElement;
         
@@ -391,11 +392,11 @@ export class FarmGame {
 
         let msg = "";
         if (finalCoins >= 150) {
-            msg = `Impressive farming! You scored ${this.score} points.`;
+            msg = gtf.farmGreat(this.score);
         } else if (finalCoins > 0) {
             msg = `Bien hecho, tiempo agotado. Lograste ${this.score} puntos.`;
         } else {
-            msg = `Disaster on the farm! You scored ${this.score}.`;
+            msg = gtf.farmBad(this.score);
         }
 
         if (finalCoins > 0) {
@@ -410,7 +411,7 @@ export class FarmGame {
                     body: JSON.stringify({ amount: finalCoins, reward_id: null }) 
                 });
                 document.dispatchEvent(new Event('coin-collected'));
-                if(status) status.innerText = `${msg} You won ${finalCoins} coins.`;
+                if(status) status.innerText = `${msg}${gtf.wonCoins(finalCoins)}`;
             } catch(e) { console.error(e); }
         } else {
             if(status) status.innerText = `${msg} No ganaste ninguna moneda.`;

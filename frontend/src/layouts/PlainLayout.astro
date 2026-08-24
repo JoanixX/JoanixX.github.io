@@ -3,20 +3,22 @@
 // `overflow: hidden` and forces a pixel font on every element, both of which
 // are correct for a full-screen game and wrong for a document you scroll and read.
 import Seo from '../components/Seo.astro';
+import { LOCALE_TAGS, type Locale, type RouteKey } from '../i18n/config';
 
 interface Props {
 	title: string;
 	description: string;
-	path?: string;
+	lang: Locale;
+	route: RouteKey;
 }
 
-const { title, description, path = '' } = Astro.props;
+const { title, description, lang, route } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={LOCALE_TAGS[lang]}>
 	<head>
-		<Seo title={title} description={description} path={path} ogType="profile" />
+		<Seo title={title} description={description} lang={lang} route={route} ogType="profile" />
 	</head>
 	<body>
 		<slot />

@@ -1,20 +1,22 @@
 ---
 import { ClientRouter } from 'astro:transitions';
 import Seo from '../components/Seo.astro';
+import { LOCALE_TAGS, type Locale, type RouteKey } from '../i18n/config';
 
 interface Props {
 	title: string;
 	description: string;
-	path?: string;
+	lang: Locale;
+	route: RouteKey;
 }
 
-const { title, description, path = '' } = Astro.props;
+const { title, description, lang, route } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={LOCALE_TAGS[lang]}>
 	<head>
-		<Seo title={title} description={description} path={path} />
+		<Seo title={title} description={description} lang={lang} route={route} />
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=block" rel="stylesheet">
