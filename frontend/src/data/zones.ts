@@ -82,8 +82,8 @@ function toGameProject(p: ProjectEntry, sectionId: string, locale: Locale): Proj
     tech: p.tech.join(", "),
     // An experience entry links to where the role is documented, not to a
     // repository — claiming an employer's codebase as your own is not on.
-    github: p.repo ?? p.link?.url ?? `${import.meta.env.BASE_URL}${PROJECTS_ROUTE[locale]}#${sectionId}`,
-    linkLabel: p.repo ? REPO_LABEL[locale] : (p.link?.label[locale] ?? MORE_LABEL[locale]),
+    github: p.link?.url ?? p.repo ?? `${import.meta.env.BASE_URL}${PROJECTS_ROUTE[locale]}#${sectionId}`,
+    linkLabel: p.link?.label[locale] ?? (p.repo ? REPO_LABEL[locale] : MORE_LABEL[locale]),
     featured: p.featured,
   };
 }

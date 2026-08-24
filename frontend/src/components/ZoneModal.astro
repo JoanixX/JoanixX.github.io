@@ -204,8 +204,11 @@ const { lang } = Astro.props;
                                 showDetails(featured);
                             });
                             featuredContainer.classList.remove('hidden');
-                        } else {
-                            featuredContainer?.classList.add('hidden');
+                        } else if (featuredContainer) {
+                            // Clear it too: hiding alone leaves the previous zone's
+                            // card in the DOM, which is confusing to inspect.
+                            featuredContainer.innerHTML = '';
+                            featuredContainer.classList.add('hidden');
                         }
 
                         others.forEach(p => {

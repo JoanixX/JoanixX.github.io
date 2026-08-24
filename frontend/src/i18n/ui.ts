@@ -116,7 +116,7 @@ export const ui = {
     es: "de throughput al escalar de 15 a 150 workers en Go",
   },
   hl4: {
-    en: "F1-macro across six production models served from ONNX",
-    es: "F1-macro en seis modelos de producción servidos desde ONNX",
+    en: "AUC on the mortality model, against a 0.500 random-ranking reference",
+    es: "AUC del modelo de mortalidad, contra una referencia aleatoria de 0.500",
   },
 } satisfies Record<string, Localized<unknown>>;

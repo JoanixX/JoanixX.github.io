@@ -125,36 +125,6 @@ export const sections: ProjectSection[] = [
         tech: ["Rust", "Axum", "PostgreSQL", "JWT", "Argon2id", "Astro", "TypeScript", "S3"],
         repo: "https://github.com/JoanixX/b2b-product-catalog-quote-system",
       },
-      {
-        id: "tutorgo-2",
-        name: "TutorGo",
-        tagline: {
-          en: "Academic tutoring platform on Java + Spring Boot",
-          es: "Plataforma de tutorías académicas en Java + Spring Boot",
-        },
-        blurb: {
-          en: "A tutoring marketplace covering registration, tutor availability, session booking, simulated payments, session links and reviews. Java/Spring Boot REST backend against a relational schema, with a React and TypeScript client; the repository carries the UML model, the database diagram and the full delivered backlog.",
-          es: "Un marketplace de tutorías que cubre registro, disponibilidad de tutores, reserva de sesiones, pagos simulados, enlaces de sesión y reseñas. Backend REST en Java/Spring Boot contra un esquema relacional, con cliente en React y TypeScript; el repositorio incluye el modelo UML, el diagrama de base de datos y el backlog completo entregado.",
-        },
-        metrics: {
-          en: [
-            "16 user stories delivered end to end",
-            "Roughly 90% of the API endpoints built by me",
-            "Relational schema and UML diagrams committed alongside the code",
-          ],
-          es: [
-            "16 historias de usuario entregadas de punta a punta",
-            "Alrededor del 90% de los endpoints de la API los construí yo",
-            "Esquema relacional y diagramas UML commiteados junto al código",
-          ],
-        },
-        tech: ["Java", "Spring Boot", "React", "TypeScript", "SQL"],
-        repo: "https://github.com/JoanixX/tutorgo-2",
-        role: {
-          en: "Developer on a five-person university team; I built roughly 90% of the API endpoints.",
-          es: "Desarrollador en un equipo universitario de cinco personas; construí alrededor del 90% de los endpoints de la API.",
-        },
-      },
     ],
   },
   {
@@ -315,33 +285,6 @@ export const sections: ProjectSection[] = [
         },
       },
       {
-        id: "semantic-search-court-records",
-        name: "Semantic Search — Court Records",
-        tagline: {
-          en: "Concurrent anonymization pipeline for judicial case files",
-          es: "Pipeline concurrente de anonimización de expedientes judiciales",
-        },
-        blurb: {
-          en: "A Go worker-pool pipeline that normalizes and anonymizes the text of Peruvian Constitutional Court case records, fed by a Python scraper and EDA layer that build the corpus. The measurement question the repository answers is how a channel-fed goroutine pool scales from 15 to 150 workers.",
-          es: "Un pipeline de worker pool en Go que normaliza y anonimiza el texto de expedientes del Tribunal Constitucional peruano, alimentado por un scraper y una capa de EDA en Python que construyen el corpus. La pregunta que el repositorio responde con mediciones es cómo escala un pool de goroutines alimentado por canales de 15 a 150 workers.",
-        },
-        metrics: {
-          en: [
-            "149,387 source case records; pipeline scales to a combined corpus of roughly 1.4M rows",
-            "10.26× throughput going from 15 to 150 workers, measured over 1,100 timed runs committed to the repo",
-            "Efficiency above 100% is an artifact of a simulated per-record cost, not real CPU work — flagged as a limitation",
-          ],
-          es: [
-            "149,387 expedientes de origen; el pipeline escala a un corpus combinado de aproximadamente 1.4M de filas",
-            "10.26× de throughput al pasar de 15 a 150 workers, medido en 1,100 corridas cronometradas commiteadas al repo",
-            "La eficiencia por encima del 100% es un artefacto de un costo por registro simulado, no trabajo real de CPU — declarado como limitación",
-          ],
-        },
-        tech: ["Go", "Python", "pandas", "semantic search"],
-        repo: "https://github.com/JoanixX/semantic-search-court-records",
-        featured: true,
-      },
-      {
         id: "pictogram-web",
         name: "PictoChat",
         tagline: {
@@ -373,36 +316,36 @@ export const sections: ProjectSection[] = [
     id: "hub",
     title: { en: "Hub Central", es: "Hub Central" },
     intro: {
-      en: "Full systems rather than single services: a trained model or an engine at the core, plus the API and the client that actually ship it.",
-      es: "Sistemas completos en vez de servicios sueltos: un modelo entrenado o un motor en el centro, más la API y el cliente que realmente lo entregan.",
+      en: "Systems that cross more than one layer and more than one language: a pipeline with the client that consumes it, a backend with the model and the interface on top.",
+      es: "Sistemas que cruzan más de una capa y más de un lenguaje: un pipeline con el cliente que lo consume, un backend con el modelo y la interfaz encima.",
     },
     accent: "var(--accent-hub)",
     projects: [
       {
-        id: "aldimi",
-        name: "ALDIMI Predict",
+        id: "semantic-search-court-records",
+        name: "Semantic Search — Court Records",
         tagline: {
-          en: "Six production models, ONNX, and a Rust inference API",
-          es: "Seis modelos en producción, ONNX y una API de inferencia en Rust",
+          en: "Concurrent anonymization pipeline for judicial case files",
+          es: "Pipeline concurrente de anonimización de expedientes judiciales",
         },
         blurb: {
-          en: "A machine learning system for the ALDIMI NGO covering patient triage priority, 7- and 14-day critical stock, consumption demand, length of stay and donation projection. The Python pipeline selects between Decision Tree, Random Forest and XGBoost per front and exports to ONNX; a Rust/Axum service loads the ONNX sessions for inference, and a React dashboard drives it. Runs entirely on free tiers.",
-          es: "Un sistema de machine learning para la ONG ALDIMI que cubre prioridad de triaje, stock crítico a 7 y 14 días, demanda de consumo, duración de estadía y proyección de donaciones. El pipeline en Python elige entre Decision Tree, Random Forest y XGBoost por frente y exporta a ONNX; un servicio en Rust/Axum carga las sesiones ONNX para inferencia y un dashboard en React lo maneja. Corre íntegramente en capas gratuitas.",
+          en: "A Go worker-pool pipeline that normalizes and anonymizes the text of Peruvian Constitutional Court case records, fed by a Python scraper and EDA layer that build the corpus. The measurement question the repository answers is how a channel-fed goroutine pool scales from 15 to 150 workers.",
+          es: "Un pipeline de worker pool en Go que normaliza y anonimiza el texto de expedientes del Tribunal Constitucional peruano, alimentado por un scraper y una capa de EDA en Python que construyen el corpus. La pregunta que el repositorio responde con mediciones es cómo escala un pool de goroutines alimentado por canales de 15 a 150 workers.",
         },
         metrics: {
           en: [
-            "F1-macro 0.855 / 0.882 / 0.878 on the three classification fronts",
-            "MAE 1.19 units (R² 0.944) on demand; MAE 6.10 days (R² 0.948) on length of stay",
-            "Leakage columns explicitly excluded from the stock fronts; cross-validation ≈ test on all six",
+            "149,387 source case records; pipeline scales to a combined corpus of roughly 1.4M rows",
+            "10.26× throughput going from 15 to 150 workers, measured over 1,100 timed runs committed to the repo",
+            "Efficiency above 100% is an artifact of a simulated per-record cost, not real CPU work — flagged as a limitation",
           ],
           es: [
-            "F1-macro de 0.855 / 0.882 / 0.878 en los tres frentes de clasificación",
-            "MAE de 1.19 unidades (R² 0.944) en demanda; MAE de 6.10 días (R² 0.948) en duración de estadía",
-            "Columnas con fuga de información excluidas explícitamente de los frentes de stock; validación cruzada ≈ test en los seis",
+            "149,387 expedientes de origen; el pipeline escala a un corpus combinado de aproximadamente 1.4M de filas",
+            "10.26× de throughput al pasar de 15 a 150 workers, medido en 1,100 corridas cronometradas commiteadas al repo",
+            "La eficiencia por encima del 100% es un artefacto de un costo por registro simulado, no trabajo real de CPU — declarado como limitación",
           ],
         },
-        tech: ["Python", "XGBoost", "ONNX Runtime", "Rust", "Axum", "React", "Vite", "Docker", "Render"],
-        repo: "https://github.com/JoanixX/ALDIMI_MachineLearning",
+        tech: ["Go", "Python", "pandas", "semantic search"],
+        repo: "https://github.com/JoanixX/semantic-search-court-records",
         featured: true,
       },
       {
@@ -430,30 +373,34 @@ export const sections: ProjectSection[] = [
         repo: "https://github.com/JoanixX/candidate_ranking_platform",
       },
       {
-        id: "joaquincito-emu-gba",
-        name: "JoaquincitoEmuGBA",
+        id: "tutorgo-2",
+        name: "TutorGo",
         tagline: {
-          en: "GBA emulator product on top of mGBA, with cross-device sync",
-          es: "Producto de emulador GBA sobre mGBA, con sincronización entre dispositivos",
+          en: "Academic tutoring platform on Java + Spring Boot",
+          es: "Plataforma de tutorías académicas en Java + Spring Boot",
         },
         blurb: {
-          en: "A Game Boy Advance emulator product built as a branding and feature layer over mGBA rather than a rewrite, with a Dockerized Windows build pipeline and a planned save library synchronized between PC and Android through an embedded Syncthing node. The repository records the exact diff applied over mGBA 0.10.5 and every third-party licence it inherits.",
-          es: "Un producto de emulador de Game Boy Advance construido como capa de marca y funcionalidades sobre mGBA en vez de una reescritura, con un pipeline de compilación para Windows en Docker y una biblioteca de partidas planeada para sincronizarse entre PC y Android mediante un nodo Syncthing embebido. El repositorio registra el diff exacto aplicado sobre mGBA 0.10.5 y cada licencia de terceros que hereda.",
+          en: "A tutoring marketplace covering registration, tutor availability, session booking, simulated payments, session links and reviews. Java/Spring Boot REST backend against a relational schema, with a React and TypeScript client; the repository carries the UML model, the database diagram and the full delivered backlog.",
+          es: "Un marketplace de tutorías que cubre registro, disponibilidad de tutores, reserva de sesiones, pagos simulados, enlaces de sesión y reseñas. Backend REST en Java/Spring Boot contra un esquema relacional, con cliente en React y TypeScript; el repositorio incluye el modelo UML, el diagrama de base de datos y el backlog completo entregado.",
         },
         metrics: {
           en: [
-            "Desktop build pipeline shipped; the Android phase is design-only so far",
-            "Ships no ROMs and no BIOS files, and states that explicitly",
-            "MPL-2.0 obligations of the upstream core kept separate from the MIT-licensed new code",
+            "16 user stories delivered end to end",
+            "Roughly 90% of the API endpoints built by me",
+            "Relational schema and UML diagrams committed alongside the code",
           ],
           es: [
-            "Pipeline de compilación de escritorio entregado; la fase Android por ahora es solo diseño",
-            "No distribuye ROMs ni archivos BIOS, y lo declara explícitamente",
-            "Las obligaciones MPL-2.0 del núcleo upstream se mantienen separadas del código nuevo bajo licencia MIT",
+            "16 historias de usuario entregadas de punta a punta",
+            "Alrededor del 90% de los endpoints de la API los construí yo",
+            "Esquema relacional y diagramas UML commiteados junto al código",
           ],
         },
-        tech: ["C", "mGBA", "Docker", "PowerShell", "Syncthing"],
-        repo: "https://github.com/JoanixX/JoaquincitoEmuGBA",
+        tech: ["Java", "Spring Boot", "React", "TypeScript", "SQL"],
+        repo: "https://github.com/JoanixX/tutorgo-2",
+        role: {
+          en: "Developer on a five-person university team; I built roughly 90% of the API endpoints.",
+          es: "Desarrollador en un equipo universitario de cinco personas; construí alrededor del 90% de los endpoints de la API.",
+        },
       },
     ],
   },
@@ -483,8 +430,8 @@ export const sections: ProjectSection[] = [
         },
         tech: ["Python", "TypeScript", "PostgreSQL", "Docker", "CI/CD"],
         link: {
-          url: "https://www.linkedin.com/in/cesar-joaquin-alvarado-osorio-189aa4262/",
-          label: { en: "Role on LinkedIn", es: "El puesto en LinkedIn" },
+          url: "https://www.linkedin.com/company/zoluxioneslatam/posts/?feedView=all",
+          label: { en: "Company on LinkedIn", es: "La empresa en LinkedIn" },
         },
       },
       {
@@ -511,9 +458,12 @@ export const sections: ProjectSection[] = [
           ],
         },
         tech: ["Python", "FastAPI", "SQLAlchemy", "PostgreSQL", "JWT", "gunicorn", "Azure"],
+        // His own repository, under his own account — showing it claims nothing
+        // that is not his, unlike an employer's codebase would.
+        repo: "https://github.com/JoanixX/ChambeaYa_Backend",
         link: {
-          url: "https://www.linkedin.com/in/cesar-joaquin-alvarado-osorio-189aa4262/",
-          label: { en: "Role on LinkedIn", es: "El puesto en LinkedIn" },
+          url: "https://www.linkedin.com/company/chambea-ya/posts/?feedView=all",
+          label: { en: "Company on LinkedIn", es: "La empresa en LinkedIn" },
         },
       },
       {
@@ -533,8 +483,8 @@ export const sections: ProjectSection[] = [
         },
         tech: ["Bubble", "No-code"],
         link: {
-          url: "https://www.linkedin.com/in/cesar-joaquin-alvarado-osorio-189aa4262/",
-          label: { en: "Role on LinkedIn", es: "El puesto en LinkedIn" },
+          url: "https://pe.linkedin.com/company/kreante",
+          label: { en: "Company on LinkedIn", es: "La empresa en LinkedIn" },
         },
       },
     ],
