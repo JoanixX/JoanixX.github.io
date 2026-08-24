@@ -1,3 +1,4 @@
+import { gt } from '../i18n/runtime';
 export class Connect4Game {
     private apiUrl: string;
     private container: HTMLElement;
@@ -34,13 +35,13 @@ export class Connect4Game {
             <div class="c4-stats">
               <div class="linus-panel">
                 <span id="linus-avatar">🐧</span>
-                <span id="linus-msg">¿Te atreves a retar a Linus?</span>
+                <span id="linus-msg">${gt("linusChallenge")}</span>
               </div>
             </div>
             <div id="c4-board" class="c4-board"></div>
             <div class="game-controls">
-                <div id="game-status" class="status-msg">Presiona JUGAR para comenzar</div>
-                <button id="play-game-btn" class="btn reward">JUGAR (75 Coins)</button>
+                <div id="game-status" class="status-msg">${gt("pressPlay")}</div>
+                <button id="play-game-btn" class="btn reward">${gt("play75")}</button>
             </div>
             
             <style>
@@ -167,7 +168,7 @@ export class Connect4Game {
                 this.clickCount++;
                 if (this.clickCount === 7 && !this.easterEggUnlocked && this.gameActive) {
                     this.easterEggUnlocked = true;
-                    this.setLinusMsg("¿Un backdoor? Usando permisos root concedidos...");
+                    this.setLinusMsg(gt("linusBackdoor"));
                     const rmBtn = this.container.querySelector('#rm-rf-btn') as HTMLElement;
                     if(rmBtn) rmBtn.style.display = 'block';
                 }
@@ -234,7 +235,7 @@ export class Connect4Game {
             this.renderBoard();
         }
 
-        this.setLinusMsg("El compilador está listo. Haz tu movimiento (O(1)).");
+        this.setLinusMsg(gt("linusReady"));
     }
 
     private setLinusMsg(msg: string) {
@@ -274,7 +275,7 @@ export class Connect4Game {
                 this.endGame(0, null);
             } else {
                 this.aiThinking = true;
-                this.setLinusMsg("Analizando árbol Minimax...");
+                this.setLinusMsg(gt("linusThinking"));
                 setTimeout(() => this.makeAIMove(), 500); // Pequeña pausa para efecto
             }
         }
@@ -323,9 +324,9 @@ export class Connect4Game {
         } else {
             const taunts = [
                 "Esa jugada tiene complejidad O(n!). Ineficiente.",
-                "Mi kernel nunca fallaría así.",
-                "Deberías leer la documentación del Conecta 4.",
-                "Tu poda alfa-beta es débil.",
+                gt("linusTaunt1"),
+                gt("linusTaunt2"),
+                gt("linusTaunt3"),
                 "Casi tan malo como usar espacios en vez de tabs."
             ];
             this.setLinusMsg(taunts[Math.floor(Math.random() * taunts.length)]);
@@ -498,13 +499,13 @@ export class Connect4Game {
         if (controls) controls.classList.remove('hidden');
         
         const btn = this.container.querySelector('#play-game-btn') as HTMLButtonElement | null;
-        if (btn) btn.innerText = "JUGAR DE NUEVO";
+        if (btn) btn.innerText = gt("playAgain");
 
         const boardEl = this.container.querySelector('#c4-board') as HTMLElement;
         if (boardEl) boardEl.style.pointerEvents = 'none';
 
         if (winner === 1) {
-            this.setLinusMsg("¡Imposible! ...Seguro encontraste un bug en mi código.");
+            this.setLinusMsg(gt("linusLost"));
             try {
                 const userId = this.getUserId();
                 await fetch(`${this.apiUrl}/reward_coins`, {
@@ -517,14 +518,14 @@ export class Connect4Game {
                 });
                 document.dispatchEvent(new Event('coin-collected'));
                 const status = this.container.querySelector('#game-status') as HTMLElement;
-                if(status) status.innerText = "¡Ganaste 150 monedas!";
+                if(status) status.innerText = gt("won150");
             } catch(e) { console.error(e); }
         } else if (winner === 2) {
             this.setLinusMsg("Git commit -m 'Victoria sobre humano'.");
             const status = this.container.querySelector('#game-status') as HTMLElement;
             if(status) status.innerText = "Perdiste. Linus gana.";
         } else {
-            this.setLinusMsg("Empate. Código espagueti por ambos lados.");
+            this.setLinusMsg(gt("linusDraw"));
             try {
                 const userId = this.getUserId();
                 await fetch(`${this.apiUrl}/reward_coins`, {
@@ -534,7 +535,7 @@ export class Connect4Game {
                 });
                 document.dispatchEvent(new Event('coin-collected'));
                 const status = this.container.querySelector('#game-status') as HTMLElement;
-                if(status) status.innerText = "Empate. Recuperas tus 75 monedas.";
+                if(status) status.innerText = gt("drawRefund");
             } catch(e) { console.error(e); }
         }
     }

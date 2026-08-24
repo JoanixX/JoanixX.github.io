@@ -1,12 +1,12 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import GameMap from '../components/GameMap.astro';
-import Dashboard from '../components/Dashboard.astro';
-import ZoneModal from '../components/ZoneModal.astro';
-import StartScreen from '../components/StartScreen.astro';
-import { ui } from '../i18n/ui';
+import Layout from '../../layouts/Layout.astro';
+import GameMap from '../../components/GameMap.astro';
+import Dashboard from '../../components/Dashboard.astro';
+import ZoneModal from '../../components/ZoneModal.astro';
+import StartScreen from '../../components/StartScreen.astro';
+import { ui } from '../../i18n/ui';
 
-const lang = 'en' as const;
+const lang = 'es' as const;
 ---
 
 <Layout title={ui.homeTitle[lang]} description={ui.homeDescription[lang]} lang={lang} route="home">

@@ -1,22 +1,44 @@
 ---
+import { withBase } from '../lib/url';
+import { type Locale } from '../i18n/config';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+
+const zoneLabels: Record<string, Record<Locale, string>> = {
+    hub: { en: 'HUB CENTRAL', es: 'HUB CENTRAL' },
+    backend: { en: 'BACKEND', es: 'BACKEND' },
+    datascience: { en: 'DATA SCIENCE', es: 'CIENCIA DE DATOS' },
+    ai: { en: 'ARTIFICIAL INTELLIGENCE', es: 'INTELIGENCIA ARTIFICIAL' },
+    experience: { en: 'EXPERIENCE', es: 'EXPERIENCIA' },
+};
+
+const minigameLabels: Record<string, Record<Locale, string>> = {
+    garden: { en: 'MINIGAME - GARDEN', es: 'MINIJUEGO - JARDÍN' },
+    farm: { en: 'MINIGAME - FARM', es: 'MINIJUEGO - GRANJA' },
+    lake: { en: 'MINIGAME - LAKE', es: 'MINIJUEGO - LAGO' },
+    magic_tree: { en: 'MINIGAME - MAGIC TREE', es: 'MINIJUEGO - ÁRBOL MÁGICO' },
+};
+
+const youLabel = { en: 'YOU', es: 'TÚ' }[lang];
 ---
 
 <div id="game-world" class="game-container">
     <div class="map-wrapper">
-        <img src={`${import.meta.env.BASE_URL}/mapa.png`} alt="Game Map" class="map-image" />
+        <img src={withBase("mapa.png")} alt="Game Map" class="map-image" />
         
         <!-- zonas hitbox -->
-        <div class="zone hitbox hub" data-zone="hub" data-label="HUB CENTRAL" style="left: 45.3%; top: 37%; width: 11%; height: 20.5%;"></div>
-        <div class="zone hitbox backend" data-zone="backend" data-label="BACKEND" style="left: 25%; top: 6%; width: 9.5%; height: 19.5%;"></div>
-        <div class="zone hitbox ds" data-zone="datascience" data-label="DATA SCIENCE" style="left: 22%; top: 55%; width: 11%; height: 26%;"></div>
-        <div class="zone hitbox ai" data-zone="ai" data-label="INTELIGENCIA ARTIFICIAL" style="left: 67.1%; top: 6%; width: 12.5%; height: 23.8%;"></div>
-        <div class="zone hitbox exp" data-zone="experience" data-label="EXPERIENCIA" style="left: 73.8%; top: 46.5%; width: 6.3%; height: 17%;"></div>
+        <div class="zone hitbox hub" data-zone="hub" data-label={zoneLabels.hub[lang]} style="left: 45.3%; top: 37%; width: 11%; height: 20.5%;"></div>
+        <div class="zone hitbox backend" data-zone="backend" data-label={zoneLabels.backend[lang]} style="left: 25%; top: 6%; width: 9.5%; height: 19.5%;"></div>
+        <div class="zone hitbox ds" data-zone="datascience" data-label={zoneLabels.datascience[lang]} style="left: 22%; top: 55%; width: 11%; height: 26%;"></div>
+        <div class="zone hitbox ai" data-zone="ai" data-label={zoneLabels.ai[lang]} style="left: 67.1%; top: 6%; width: 12.5%; height: 23.8%;"></div>
+        <div class="zone hitbox exp" data-zone="experience" data-label={zoneLabels.experience[lang]} style="left: 73.8%; top: 46.5%; width: 6.3%; height: 17%;"></div>
         
         <!-- minijuegos -->
-        <div class="zone hitbox minigame" data-type="minigame" data-zone="Jardín" style="left: 43%; top: 75%; width: 8.5%; height: 16.5%;"></div>
-        <div class="zone hitbox minigame" data-type="minigame" data-zone="Granja" style="left: 46.5%; top: 10%; width: 10.5%; height: 18.5%;"></div>
-        <div class="zone hitbox minigame" data-type="minigame" data-zone="Lago" style="left: 62%; top: 75%; width: 7%; height: 15%;"></div>
-        <div class="zone hitbox minigame" data-type="minigame" data-zone="Árbol Mágico" style="left: 21.5%; top: 30%; width: 8.5%; height: 20%;"></div>
+        <div class="zone hitbox minigame" data-type="minigame" data-zone="garden" style="left: 43%; top: 75%; width: 8.5%; height: 16.5%;"></div>
+        <div class="zone hitbox minigame" data-type="minigame" data-zone="farm" style="left: 46.5%; top: 10%; width: 10.5%; height: 18.5%;"></div>
+        <div class="zone hitbox minigame" data-type="minigame" data-zone="lake" style="left: 62%; top: 75%; width: 7%; height: 15%;"></div>
+        <div class="zone hitbox minigame" data-type="minigame" data-zone="magic_tree" style="left: 21.5%; top: 30%; width: 8.5%; height: 20%;"></div>
         
         <!-- easter eggs -->
         <div class="zone hitbox easter_egg" data-type="easter_egg" data-zone="easter_egg" style="left: 94%; top: 94%; width: 3.8%; height: 7%;"></div>
@@ -28,41 +50,41 @@
 
         <!-- letreros de zona -->
         <div class="zone-signpost" style="left: 50.8%; top: 37%;">
-            <span class="sign-text">HUB CENTRAL</span>
+            <span class="sign-text">{zoneLabels.hub[lang]}</span>
             <div class="sign-tip"></div>
         </div>
         <div class="zone-signpost" style="left: 29.5%; top: 6%;">
-            <span class="sign-text">BACKEND</span>
+            <span class="sign-text">{zoneLabels.backend[lang]}</span>
             <div class="sign-tip"></div>
         </div>
         <div class="zone-signpost" style="left: 27.5%; top: 55%;">
-            <span class="sign-text">DATA SCIENCE</span>
+            <span class="sign-text">{zoneLabels.datascience[lang]}</span>
             <div class="sign-tip"></div>
         </div>
         <div class="zone-signpost" style="left: 73.1%; top: 6%;">
-            <span class="sign-text">INTELIGENCIA ARTIFICIAL</span>
+            <span class="sign-text">{zoneLabels.ai[lang]}</span>
             <div class="sign-tip"></div>
         </div>
         <div class="zone-signpost" style="left: 77%; top: 46.5%;">
-            <span class="sign-text">EXPERIENCIA</span>
+            <span class="sign-text">{zoneLabels.experience[lang]}</span>
             <div class="sign-tip"></div>
         </div>
 
 
         <div class="zone-signpost minigame" style="left: 47.3%; top: 75%;">
-            <span class="sign-text">MINIJUEGO - JARDÍN</span>
+            <span class="sign-text">{minigameLabels.garden[lang]}</span>
             <div class="sign-tip"></div>
         </div>
         <div class="zone-signpost minigame" style="left: 51.7%; top: 10%;">
-            <span class="sign-text">MINIJUEGO - GRANJA</span>
+            <span class="sign-text">{minigameLabels.farm[lang]}</span>
             <div class="sign-tip"></div>
         </div>
         <div class="zone-signpost minigame" style="left: 65.5%; top: 75%;">
-            <span class="sign-text">MINIJUEGO - LAGO</span>
+            <span class="sign-text">{minigameLabels.lake[lang]}</span>
             <div class="sign-tip"></div>
         </div>
         <div class="zone-signpost minigame" style="left: 25.8%; top: 30%;">
-            <span class="sign-text">MINIJUEGO - ÁRBOL MÁGICO</span>
+            <span class="sign-text">{minigameLabels.magic_tree[lang]}</span>
             <div class="sign-tip"></div>
         </div>
 
@@ -70,7 +92,7 @@
         <div id="player" class="player-container">
             <div id="player-aura" class="player-aura"></div>
             <div class="player-arrow">
-                <span class="arrow-text">TÚ</span>
+                <span class="arrow-text">{youLabel}</span>
                 <div class="arrow-tip"></div>
             </div>
             <div id="player-sprite" class="character-sprite"></div>
@@ -106,6 +128,8 @@
 </div>
 
 <script>
+    import { gt as gtImported } from '../i18n/runtime';
+    const gt = gtImported;
     const API_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:8080/api';
     // identificación unica del usuario
     const getUserId = () => {
@@ -373,10 +397,10 @@
     }
 
     window.addEventListener('keydown', (e) => {
-        if (keys.hasOwnProperty(e.code)) keys[e.code] = true;
+        if (keys.hasOwnProperty(e.code)) keys[e.code as keyof typeof keys] = true;
     });
     window.addEventListener('keyup', (e) => {
-        if (keys.hasOwnProperty(e.code)) keys[e.code] = false;
+        if (keys.hasOwnProperty(e.code)) keys[e.code as keyof typeof keys] = false;
     });
 
 
@@ -407,7 +431,7 @@
             if (res.ok) {
                 const data = await res.json();
                 console.log(`[GameMap] Coin collection successful. Total global: ${data.total}, User now has: ${data.user}`);
-                showToast(`Has recogido 10 monedas!`);
+                showToast(gt("coinPickup"));
             } else {
                 console.error("[GameMap] Failed to collect coin:", await res.text());
                 showToast("Error al recoger moneda");
@@ -424,12 +448,6 @@
             let zoneName = z.getAttribute('data-zone');
             const type = z.getAttribute('data-type');
             
-            // Map display names to internal IDs for minigames
-            if (zoneName === 'Lago') zoneName = 'lake';
-            if (zoneName === 'Granja') zoneName = 'farm';
-            if (zoneName === 'Árbol Mágico') zoneName = 'magic_tree';
-            if (zoneName === 'Jardín') zoneName = 'garden';
-
             document.dispatchEvent(new CustomEvent('open-zone', { detail: { zone: zoneName } }));
         });
     });

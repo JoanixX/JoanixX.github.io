@@ -1,3 +1,12 @@
+---
+import { withBase } from "../lib/url";
+import { ui } from "../i18n/ui";
+import { type Locale } from "../i18n/config";
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+---
+
 <div id="zone-modal" class="modal-backdrop hidden">
     <div class="modal-container">
         <!-- panel principal -->
@@ -18,7 +27,7 @@
             </div>
 
             <div id="modal-actions" class="modal-actions">
-                <button id="claim-reward" class="btn reward hidden">Reclamar Recompensa (+50 coins)</button>
+                <button id="claim-reward" class="btn reward hidden">{ui.claimReward[lang]}</button>
             </div>
         </div>
 
@@ -32,12 +41,12 @@
                 <h3 id="detail-name">Project Name</h3>
                 <p id="detail-desc">Full project description...</p>
                 <div class="tech-stack">
-                    <span class="tech-label">TECNOLOGÍAS:</span>
+                    <span class="tech-label">{ui.techStack[lang]}</span>
                     <p id="detail-tech">Rust, Actix, PostgreSQL</p>
                 </div>
                 <div class="detail-actions">
-                    <a href="#" id="detail-repo" class="btn secondary" target="_blank" rel="noopener noreferrer">GitHub Repo</a>
-                    <button id="detail-claim" class="btn reward">Reward (+25 coins)</button>
+                    <a href="#" id="detail-repo" class="btn secondary" target="_blank" rel="noopener noreferrer">{ui.githubRepo[lang]}</a>
+                    <button id="detail-claim" class="btn reward">{ui.reward25[lang]}</button>
                 </div>
             </div>
         </div>
@@ -52,9 +61,9 @@
             <div id="fish-game-area" class="game-area-box">
                 <!-- canvas del juego -->
                 <div class="game-controls">
-                    <div id="game-status" class="status-msg">Presiona JUGAR para comenzar</div>
+                    <div id="game-status" class="status-msg">{ui.pressPlay[lang]}</div>
                     <div id="game-score" class="score-display"></div>
-                    <button id="play-game-btn" class="btn reward">JUGAR (75 Coins)</button>
+                    <button id="play-game-btn" class="btn reward">{ui.play75[lang]}</button>
                 </div>
             </div>
             <div id="minigame-placeholder-msg" class="placeholder-text hidden"></div>
@@ -68,7 +77,7 @@
     </div>
 </div>
 
-<style is:global define:vars={{ charactersPath: `url('${import.meta.env.BASE_URL}/characters.png')` }}>
+<style is:global define:vars={{ charactersPath: `url('${withBase("characters.png")}')` }}>
     .char-sprite {
         background-image: var(--charactersPath);
         z-index: 10;
@@ -77,7 +86,8 @@
 </style>
 
 <script>
-    import { contentMap, type Project, type ZoneContent } from '../data/zones';
+    import { getContentMap, type Project, type ZoneContent } from '../data/zones';
+    import { gt, currentLocale } from '../i18n/runtime';
     import { FishingGame } from '../game/fishing';
     import { Connect4Game } from '../game/connect4';
     import { QuizGame } from '../game/quiz';
@@ -146,7 +156,7 @@
     // abrir zona
     document.addEventListener('open-zone', (e: any) => {
         const zoneId = e.detail.zone;
-        const data = contentMap[zoneId];
+        const data = getContentMap(currentLocale())[zoneId];
         
         if (activeFunctionsGame) {
             activeFunctionsGame.cleanup();
@@ -220,15 +230,15 @@
                         rewardBtn?.classList.remove('hidden');
                         
                         if (claimedRewardIds.has(zoneId)) {
-                            rewardBtn!.innerText = 'COBRADO ✓';
+                            rewardBtn!.innerText = gt('claimed');
                             rewardBtn!.classList.add('claimed');
                             (rewardBtn as any).disabled = true;
                             rewardBtn!.onclick = null;
                         } else {
-                            rewardBtn!.innerText = 'Reclamar Recompensa (+50 coins)';
+                            rewardBtn!.innerText = gt('claimReward');
                             rewardBtn!.classList.remove('claimed');
                             (rewardBtn as any).disabled = false;
-                            rewardBtn!.onclick = () => doClaim(zoneId, 50, rewardBtn);
+                            rewardBtn!.onclick = () => doClaim(zoneId, 50, rewardBtn!);
                         }
                     } else {
                         actionContainer?.classList.add('hidden');
@@ -296,9 +306,9 @@
             // hud placeholders
             fishGameArea.innerHTML = `
                 <div class="game-controls">
-                    <div id="game-status" class="status-msg">PRÓXIMAMENTE</div>
+                    <div id="game-status" class="status-msg">${gt("comingSoon")}</div>
                     <div id="game-score" class="score-display"></div>
-                    <button class="btn reward" disabled>EN CONSTRUCCIÓN</button>
+                    <button class="btn reward" disabled>${gt("underConstruction")}</button>
                 </div>
             `;
         }
@@ -315,12 +325,12 @@
         detailsPanel.classList.remove('hidden');
 
         if (claimedRewardIds.has(p.id)) {
-            detailClaim.innerText = 'COBRADO ✓';
+            detailClaim.innerText = gt('claimed');
             detailClaim.classList.add('claimed');
             (detailClaim as any).disabled = true;
             detailClaim.onclick = null;
         } else {
-            detailClaim.innerText = 'Reward (+25 coins)';
+            detailClaim.innerText = gt('reward25');
             detailClaim.classList.remove('claimed');
             (detailClaim as any).disabled = false;
             detailClaim.onclick = () => doClaim(p.id, 25, detailClaim as HTMLElement);
@@ -339,7 +349,7 @@
             });
             if (res.ok) {
                 document.dispatchEvent(new Event('coin-collected'));
-                el.innerText = 'COBRADO ✓';
+                el.innerText = gt('claimed');
                 el.classList.add('claimed');
                 (el as any).disabled = true;
                 

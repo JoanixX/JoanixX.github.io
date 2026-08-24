@@ -1,15 +1,25 @@
 ---
+import { withBase } from '../lib/url';
+import { ui } from '../i18n/ui';
+import { routePath, otherLocale, LOCALE_NAMES, type Locale } from '../i18n/config';
+
+interface Props { lang: Locale }
+const { lang } = Astro.props;
+const other = otherLocale(lang);
 ---
 
 <div id="start-screen" class="start-screen">
+    <a href={withBase(routePath('home', other))} class="lang-toggle" hreflang={other} lang={other}>{LOCALE_NAMES[other]}</a>
+
     <div class="main-wrapper">
         <!-- area interactiva izq -->
         <div class="left-panel">
             <div class="brand">
-                <h1>MI PORTAFOLIO</h1>
-                <p class="subtitle">Full Stack & AI Engineer</p>
+                <h1>JOAQUIN ALVARADO</h1>
+                <p class="subtitle">{ui.role[lang]}</p>
             </div>
             <button id="btn-start" class="btn-pixel">PRESS START</button>
+            <a href={withBase(routePath('projects', lang))} class="skip-link">{ui.hurryLink[lang]} &rarr;</a>
         </div>
 
         <!-- separador cadenas -->
@@ -22,27 +32,22 @@
         <!-- area sobre mi -->
         <div class="right-panel">
             <div class="about-me glass-panel">
-                <h2>¿Quién soy?</h2>
+                <h2>{ui.whoAmI[lang]}</h2>
                 <div class="about-content">
                     <div class="about-top">
-                        <p>Soy Joaquin Alvarado, un desarrollador apasionado por crear 
-                        mundos digitales interactivos. Mi especialidad es el Backend 
-                        tanto en Rust como en Python (FastAPI), me enfoco en la arquitectura 
-                        limpia y la escalabilidad de mis aplicaciones, además de integrar 
-                        Inteligencia Artificial para desarrollar soluciones y mejorar la 
-                        experiencia del usuario.</p>
+                        <p>{ui.aboutMe[lang]}</p>
                         <div class="about-image">
-                            <img src={`${import.meta.env.BASE_URL}/CV_Yo.png`} alt="Joaquin Alvarado" class="profile-img" />
+                            <img src={withBase('CV_Yo.png')} alt="Joaquin Alvarado" class="profile-img" />
                         </div>
                     </div>
                     <div class="extra-info">
                         <div class="info-item">
-                            <span class="label">Misión</span>
-                            <span class="value">Arquitectura Limpia</span>
+                            <span class="label">{ui.focusLabel[lang]}</span>
+                            <span class="value">{ui.focusValue[lang]}</span>
                         </div>
                         <div class="info-item">
-                            <span class="label">Visión</span>
-                            <span class="value">Innovación IA</span>
+                            <span class="label">{ui.stackLabel[lang]}</span>
+                            <span class="value">Rust / Python / Go</span>
                         </div>
                     </div>
                 </div>
@@ -342,5 +347,58 @@
     @keyframes float {
         0%, 100% { transform: translateY(0); }
         50% { transform: translateY(-10px); }
+    }
+</style>
+
+<style>
+    /* Static escape hatch: a real <a> in the prerendered HTML, so crawlers and
+       recruiters both reach the plain project list without playing anything. */
+    .skip-link {
+        display: inline-block;
+        margin-top: 1.4rem;
+        font-size: 0.55rem;
+        line-height: 1.8;
+        color: #ffd43b;
+        border-bottom: 2px solid rgba(255, 212, 59, 0.45);
+        padding-bottom: 4px;
+        transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .skip-link:hover,
+    .skip-link:focus-visible {
+        color: #fff3bf;
+        border-color: #fff3bf;
+    }
+
+    @media (max-width: 768px) {
+        .skip-link { font-size: 0.5rem; }
+    }
+</style>
+
+<style>
+    /* Language toggle, rendered as a real link so both locales are crawlable. */
+    .lang-toggle {
+        position: absolute;
+        top: 1.2rem;
+        right: 1.4rem;
+        z-index: 20;
+        font-size: 0.5rem;
+        line-height: 1;
+        color: #e0e6ed;
+        border: 2px solid rgba(255, 212, 59, 0.5);
+        border-radius: 4px;
+        padding: 0.55rem 0.75rem;
+        background: rgba(10, 10, 22, 0.75);
+        transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .lang-toggle:hover,
+    .lang-toggle:focus-visible {
+        color: #ffd43b;
+        border-color: #ffd43b;
+    }
+
+    @media (max-width: 768px) {
+        .lang-toggle { top: 0.7rem; right: 0.7rem; font-size: 0.45rem; padding: 0.45rem 0.6rem; }
     }
 </style>

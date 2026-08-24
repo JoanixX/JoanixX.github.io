@@ -1,4 +1,5 @@
-import { questionBank, type Question } from '../data/questions';
+import { gt, gtf, currentLocale } from '../i18n/runtime';
+import { getQuestionBank, type Question } from '../data/questions';
 
 export class QuizGame {
     private apiUrl: string;
@@ -38,11 +39,11 @@ export class QuizGame {
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <span id="quiz-lives" style="font-size: 1.2rem; color: #ef4444; font-weight: 800; text-shadow: 1px 1px 4px rgba(0,0,0,0.8);">❤️❤️❤️</span>
                     <span id="quiz-score" style="font-size: 1rem; color: #ffd43b; font-weight: 800; text-shadow: 1px 1px 4px rgba(0,0,0,0.8);">0/5 Acertadas</span>
-                    <span id="easter-plant" style="font-size: 1.5rem; cursor: pointer; user-select: none; font-weight: 800; text-shadow: 1px 1px 4px rgba(0,0,0,0.8);" title="Un simple brote.">🌱</span>
+                    <span id="easter-plant" style="font-size: 1.5rem; cursor: pointer; user-select: none; font-weight: 800; text-shadow: 1px 1px 4px rgba(0,0,0,0.8);" title="${gt('sprout')}">🌱</span>
                 </div>
                 
-                <div id="quiz-category" style="font-size: 0.6rem; color: #aed581; margin-bottom: 5px; margin-left: 20px; font-weight: 800; letter-spacing: 1px; text-shadow: 1px 1px 4px rgba(0,0,0,0.8);">CATEGORÍA 1/5</div>
-                <div id="quiz-text" style="font-size: 0.8rem; color: #ffffff; font-weight: 800; text-shadow: 1px 1px 4px #000, 0 0 10px rgba(0,0,0,0.8); margin-top: 25px; margin-bottom: 15px; margin-left: 20px; line-height: 1.4; min-height: 2.5rem;">¿Pregunta?</div>
+                <div id="quiz-category" style="font-size: 0.6rem; color: #aed581; margin-bottom: 5px; margin-left: 20px; font-weight: 800; letter-spacing: 1px; text-shadow: 1px 1px 4px rgba(0,0,0,0.8);">${gt("category15")}</div>
+                <div id="quiz-text" style="font-size: 0.8rem; color: #ffffff; font-weight: 800; text-shadow: 1px 1px 4px #000, 0 0 10px rgba(0,0,0,0.8); margin-top: 25px; margin-bottom: 15px; margin-left: 20px; line-height: 1.4; min-height: 2.5rem;">${gt("questionPlaceholder")}</div>
                 
                 <div style="flex-grow: 0.6; display: flex; justify-content: flex-end; align-items: flex-end; transform: translateX(15px);">
                   <div style="display: flex; align-items: center; gap: 8px;">
@@ -60,7 +61,7 @@ export class QuizGame {
             
             <div class="game-controls">
                 <div id="game-status" class="status-msg">Enfrenta el conocimiento. Pierde 3 vidas y Game Over.</div>
-                <button id="play-game-btn" class="btn reward">JUGAR (75 Coins)</button>
+                <button id="play-game-btn" class="btn reward">${gt("play75")}</button>
             </div>
             <style>
                 .nav-btn {
@@ -191,10 +192,10 @@ export class QuizGame {
         this.selectedAnswerIndex = -1;
 
         const plant = this.container.querySelector('#easter-plant') as HTMLElement;
-        if(plant) { plant.textContent = '🌱'; plant.title = "Un simple brote."; }
+        if(plant) { plant.textContent = '🌱'; plant.title = gt("sprout"); }
 
         // Seleccionar 5 preguntas random
-        const shuffled = [...questionBank].sort(() => 0.5 - Math.random());
+        const shuffled = [...getQuestionBank(currentLocale())].sort(() => 0.5 - Math.random());
         this.questions = shuffled.slice(0, 5);
 
         const quizUi = this.container.querySelector('#quiz-ui') as HTMLElement;
@@ -291,7 +292,7 @@ export class QuizGame {
         
         if (index === q.correctIndex) {
             this.correctCount++;
-            this.showFeedback("¡CORRECTO!", "#a9e34b");
+            this.showFeedback(gt("correct"), "#a9e34b");
         } else {
             this.lives--;
             this.showFeedback("ERROR", "#ef4444");
@@ -333,7 +334,7 @@ export class QuizGame {
         if (controls) controls.classList.remove('hidden');
 
         const btn = this.container.querySelector('#play-game-btn') as HTMLButtonElement | null;
-        if (btn) btn.innerText = "JUGAR DE NUEVO (75 Coins)";
+        if (btn) btn.innerText = gt("playAgain75");
 
         const status = this.container.querySelector('#game-status') as HTMLElement;
         let coinsWon = this.correctCount * 30;
@@ -344,9 +345,9 @@ export class QuizGame {
             msg = `Te quedaste sin vidas... Conseguiste ${this.correctCount}/5 aciertos.`;
         } else if (this.correctCount === 5) {
             bonus = 50;
-            msg = `¡PERFECTO! Full-Stack Master. (Bono +50)`;
+            msg = gt("perfectScore");
         } else {
-            msg = `Juego terminado. ${this.correctCount}/5 aciertos. ¡Buena suerte a la próxima!`;
+            msg = gtf.quizEnd(this.correctCount);
         }
         
         const totalCoins = coinsWon + bonus;
@@ -363,7 +364,7 @@ export class QuizGame {
                     body: JSON.stringify({ amount: totalCoins, reward_id: null }) 
                 });
                 document.dispatchEvent(new Event('coin-collected'));
-                if(status) status.innerText = `${msg} Ganaste ${totalCoins} monedas.`;
+                if(status) status.innerText = `${msg}${gtf.wonCoins(totalCoins)}`;
             } catch(e) { console.error(e); }
         } else {
             if(status) status.innerText = `${msg} No ganaste nada.`;
