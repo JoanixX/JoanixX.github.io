@@ -118,10 +118,10 @@ const itemListSchema = {
 							</ul>
 
 							<p class="actions">
-								{p.repo
-									? <a class="action" href={p.repo} rel="noopener">{ui.sourceCode[lang]}&nbsp;↗</a>
-									: <span class="action muted">{p.noRepoReason?.[lang]}</span>}
+								{p.repo && <a class="action" href={p.repo} rel="noopener">{ui.sourceCode[lang]}&nbsp;↗</a>}
+								{p.link && <a class="action" href={p.link.url} rel="noopener">{p.link.label[lang]}&nbsp;↗</a>}
 								{p.demo && <a class="action" href={p.demo} rel="noopener">{ui.liveDemo[lang]}&nbsp;↗</a>}
+								{!p.repo && !p.link && <span class="action muted">{p.noRepoReason?.[lang]}</span>}
 							</p>
 						</li>
 					))}
